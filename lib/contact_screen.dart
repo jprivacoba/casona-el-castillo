@@ -55,79 +55,105 @@ class _ContactSectionState extends State<ContactSection> {
 
   @override
   Widget build(BuildContext context) {
+    final isMobile = MediaQuery.of(context).size.width < 700;
+
     return Container(
       color: AppTheme.cream,
-      padding: const EdgeInsets.symmetric(vertical: 80, horizontal: 40),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Columna izquierda — info
-          Expanded(
-            flex: 2,
-            child: Padding(
-              padding: const EdgeInsets.only(right: 64, top: 8),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'CONTACTO',
-                    style: TextStyle(
-                      fontSize: 11,
-                      letterSpacing: 2.5,
-                      color: AppTheme.gold,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  Text(
-                    'Coordinemos\ntu evento',
-                    style: Theme.of(context).textTheme.headlineMedium,
-                  ),
-                  const SizedBox(height: 8),
-                  Container(width: 48, height: 2, color: AppTheme.gold),
-                  const SizedBox(height: 28),
-                  const Text(
-                    'Escríbenos y te responderemos a la brevedad para organizar juntos el evento que imaginas.',
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: AppTheme.muted,
-                      height: 1.8,
-                    ),
-                  ),
-                  const SizedBox(height: 40),
-                  _infoItem(Icons.phone_outlined, '+56 9 9779 4301'),
-                  const SizedBox(height: 16),
-                  _infoItem(Icons.email_outlined, 'casonaelcastillo1933@gmail.com'),
-                  const SizedBox(height: 16),
-                  _infoItem(Icons.location_on_outlined, 'Calle Larga, Los Andes\nValparaíso, Chile'),
-                ],
-              ),
-            ),
-          ),
+      padding: EdgeInsets.symmetric(
+        vertical: isMobile ? 48 : 80,
+        horizontal: isMobile ? 20 : 40,
+      ),
+      child: isMobile ? _buildMobile(context) : _buildDesktop(context),
+    );
+  }
 
-          // Columna derecha — formulario
-          Expanded(
-            flex: 3,
-            child: Container(
-              constraints: const BoxConstraints(maxWidth: 560),
-              decoration: BoxDecoration(
-                color: AppTheme.white,
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: const Color(0xFFE8DDD0)),
-                boxShadow: const [
-                  BoxShadow(
-                    color: Color(0x0A000000),
-                    blurRadius: 24,
-                    offset: Offset(0, 8),
-                  ),
-                ],
-              ),
-              padding: const EdgeInsets.all(40),
-              child: _isSent ? _buildSuccess() : _buildForm(),
-            ),
+  Widget _buildDesktop(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(
+          flex: 2,
+          child: Padding(
+            padding: const EdgeInsets.only(right: 64, top: 8),
+            child: _buildInfo(context),
+          ),
+        ),
+        Expanded(
+          flex: 3,
+          child: _buildFormCard(),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildMobile(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _buildInfo(context),
+        const SizedBox(height: 40),
+        _buildFormCard(),
+      ],
+    );
+  }
+
+  Widget _buildInfo(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'CONTACTO',
+          style: TextStyle(
+            fontSize: 11,
+            letterSpacing: 2.5,
+            color: AppTheme.gold,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        const SizedBox(height: 16),
+        Text(
+          'Coordinemos\ntu evento',
+          style: Theme.of(context).textTheme.headlineMedium,
+        ),
+        const SizedBox(height: 8),
+        Container(width: 48, height: 2, color: AppTheme.gold),
+        const SizedBox(height: 28),
+        const Text(
+          'Escríbenos y te responderemos a la brevedad para organizar juntos el evento que imaginas.',
+          style: TextStyle(
+            fontSize: 14,
+            color: AppTheme.muted,
+            height: 1.8,
+          ),
+        ),
+        const SizedBox(height: 40),
+        _infoItem(Icons.phone_outlined, '+56 9 9779 4301'),
+        const SizedBox(height: 16),
+        _infoItem(Icons.email_outlined, 'casonaelcastillo1933@gmail.com'),
+        const SizedBox(height: 16),
+        _infoItem(Icons.location_on_outlined, 'Calle Larga, Los Andes\nValparaíso, Chile'),
+      ],
+    );
+  }
+
+  Widget _buildFormCard() {
+    return Container(
+      width: double.infinity,
+      constraints: const BoxConstraints(maxWidth: 560),
+      decoration: BoxDecoration(
+        color: AppTheme.white,
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: const Color(0xFFE8DDD0)),
+        boxShadow: const [
+          BoxShadow(
+            color: Color(0x0A000000),
+            blurRadius: 24,
+            offset: Offset(0, 8),
           ),
         ],
       ),
+      padding: const EdgeInsets.all(32),
+      child: _isSent ? _buildSuccess() : _buildForm(),
     );
   }
 
@@ -167,6 +193,8 @@ class _ContactSectionState extends State<ContactSection> {
   }
 
   Widget _buildForm() {
+    final isMobile = MediaQuery.of(context).size.width < 700;
+
     return Form(
       key: _formKey,
       child: Column(
@@ -183,13 +211,18 @@ class _ContactSectionState extends State<ContactSection> {
             ),
           ),
           const SizedBox(height: 28),
-          Row(
-            children: [
-              Expanded(child: _field('Nombre', _nameController)),
-              const SizedBox(width: 16),
-              Expanded(child: _field('Correo electrónico', _emailController, isEmail: true)),
-            ],
-          ),
+          if (isMobile) ...[
+            _field('Nombre', _nameController),
+            const SizedBox(height: 16),
+            _field('Correo electrónico', _emailController, isEmail: true),
+          ] else
+            Row(
+              children: [
+                Expanded(child: _field('Nombre', _nameController)),
+                const SizedBox(width: 16),
+                Expanded(child: _field('Correo electrónico', _emailController, isEmail: true)),
+              ],
+            ),
           const SizedBox(height: 20),
           _field('Mensaje', _messageController, isLong: true),
           const SizedBox(height: 28),

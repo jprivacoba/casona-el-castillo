@@ -65,20 +65,24 @@ class GalleryScreen extends StatelessWidget {
     'assets/images/img55.jpg',
   ];
 
-  // Solo mostramos 9 fotos en el scroll principal
   static const int _previewCount = 9;
 
   @override
   Widget build(BuildContext context) {
+    final isMobile = MediaQuery.of(context).size.width < 700;
+
     return Container(
       color: AppTheme.creamAlt,
-      padding: const EdgeInsets.symmetric(vertical: 72, horizontal: 40),
+      padding: EdgeInsets.symmetric(
+        vertical: isMobile ? 48 : 72,
+        horizontal: isMobile ? 16 : 40,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _buildHeader(context),
           const SizedBox(height: 32),
-          _buildGrid(context),
+          _buildGrid(context, isMobile),
           const SizedBox(height: 28),
           _buildVerTodasButton(context),
         ],
@@ -118,14 +122,14 @@ class GalleryScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildGrid(BuildContext context) {
+  Widget _buildGrid(BuildContext context, bool isMobile) {
     return GridView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 3,
-        crossAxisSpacing: 8,
-        mainAxisSpacing: 8,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: isMobile ? 2 : 3,
+        crossAxisSpacing: isMobile ? 6 : 8,
+        mainAxisSpacing: isMobile ? 6 : 8,
         childAspectRatio: 1.2,
       ),
       itemCount: _previewCount,
@@ -247,7 +251,6 @@ class _GalleryViewerState extends State<_GalleryViewer> {
             pageController: _pageController,
             onPageChanged: (index) => setState(() => _current = index),
           ),
-          // Flecha izquierda
           if (_current > 0)
             Positioned(
               left: 16,
@@ -260,7 +263,6 @@ class _GalleryViewerState extends State<_GalleryViewer> {
                 ),
               ),
             ),
-          // Flecha derecha
           if (_current < widget.images.length - 1)
             Positioned(
               right: 16,

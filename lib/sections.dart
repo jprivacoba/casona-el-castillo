@@ -9,53 +9,82 @@ class AboutSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isMobile = MediaQuery.of(context).size.width < 700;
+
     return Container(
       color: AppTheme.cream,
-      padding: const EdgeInsets.symmetric(vertical: 72, horizontal: 40),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          // Imagen con altura fija
-          Expanded(
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(8),
-              child: Image.asset(
-                'assets/images/quienes-somos.jpg',
-                height: 380,
-                fit: BoxFit.cover,
-                cacheWidth: 700,
-              ),
-            ),
-          ),
-          const SizedBox(width: 56),
-          // Texto
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _sectionLabel('QUIÉNES SOMOS'),
-                const SizedBox(height: 16),
-                Text(
-                  'Nuestra Historia',
-                  style: Theme.of(context).textTheme.headlineMedium,
-                ),
-                const SizedBox(height: 8),
-                Container(width: 48, height: 2, color: AppTheme.gold),
-                const SizedBox(height: 24),
-                Text(
-                  'Casona Fundo El Castillo nace del sueño familiar de devolverle vida a un parque con más de 80 años de historia. Diseñado por un paisajista francés y rodeado de árboles centenarios, este lugar único combina patrimonio, naturaleza y elegancia.',
-                  style: Theme.of(context).textTheme.bodyMedium,
-                ),
-                const SizedBox(height: 16),
-                Text(
-                  'Nuestra antigua casona ha sido cuidadosamente restaurada, integrando modernos baños y una cocina de más de 300 m², creando el escenario perfecto para eventos inolvidables.',
-                  style: Theme.of(context).textTheme.bodyMedium,
-                ),
-              ],
-            ),
-          ),
-        ],
+      padding: EdgeInsets.symmetric(
+        vertical: isMobile ? 48 : 72,
+        horizontal: isMobile ? 20 : 40,
       ),
+      child: isMobile ? _buildMobile(context) : _buildDesktop(context),
+    );
+  }
+
+  Widget _buildDesktop(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Expanded(
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(8),
+            child: Image.asset(
+              'assets/images/quienes-somos.jpg',
+              height: 380,
+              fit: BoxFit.cover,
+              cacheWidth: 700,
+            ),
+          ),
+        ),
+        const SizedBox(width: 56),
+        Expanded(child: _buildText(context)),
+      ],
+    );
+  }
+
+  Widget _buildMobile(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        ClipRRect(
+          borderRadius: BorderRadius.circular(8),
+          child: Image.asset(
+            'assets/images/quienes-somos.jpg',
+            height: 240,
+            width: double.infinity,
+            fit: BoxFit.cover,
+            cacheWidth: 700,
+          ),
+        ),
+        const SizedBox(height: 32),
+        _buildText(context),
+      ],
+    );
+  }
+
+  Widget _buildText(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _sectionLabel('QUIÉNES SOMOS'),
+        const SizedBox(height: 16),
+        Text(
+          'Nuestra Historia',
+          style: Theme.of(context).textTheme.headlineMedium,
+        ),
+        const SizedBox(height: 8),
+        Container(width: 48, height: 2, color: AppTheme.gold),
+        const SizedBox(height: 24),
+        Text(
+          'Casona Fundo El Castillo nace del sueño familiar de devolverle vida a un parque con más de 80 años de historia. Diseñado por un paisajista francés y rodeado de árboles centenarios, este lugar único combina patrimonio, naturaleza y elegancia.',
+          style: Theme.of(context).textTheme.bodyMedium,
+        ),
+        const SizedBox(height: 16),
+        Text(
+          'Nuestra antigua casona ha sido cuidadosamente restaurada, integrando modernos baños y una cocina de más de 300 m², creando el escenario perfecto para eventos inolvidables.',
+          style: Theme.of(context).textTheme.bodyMedium,
+        ),
+      ],
     );
   }
 }
@@ -63,14 +92,18 @@ class AboutSection extends StatelessWidget {
 class LocationSection extends StatelessWidget {
   const LocationSection({super.key});
 
-  // Coordenadas de Fundo El Castillo, Calle Larga, Los Andes
   static final LatLng _location = LatLng(-32.8850, -70.6494);
 
   @override
   Widget build(BuildContext context) {
+    final isMobile = MediaQuery.of(context).size.width < 700;
+
     return Container(
       color: AppTheme.creamAlt,
-      padding: const EdgeInsets.symmetric(vertical: 72, horizontal: 40),
+      padding: EdgeInsets.symmetric(
+        vertical: isMobile ? 48 : 72,
+        horizontal: isMobile ? 20 : 40,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -83,87 +116,106 @@ class LocationSection extends StatelessWidget {
           const SizedBox(height: 8),
           Container(width: 48, height: 2, color: AppTheme.gold),
           const SizedBox(height: 32),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Mapa interactivo
-              Expanded(
-                flex: 3,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(8),
-                  child: SizedBox(
-                    height: 340,
-                    child: FlutterMap(
-                      options: MapOptions(
-                        initialCenter: _location,
-                        initialZoom: 14,
-                      ),
-                      children: [
-                        TileLayer(
-                          urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                          userAgentPackageName: 'com.casona.app',
-                        ),
-                        MarkerLayer(
-                          markers: [
-                            Marker(
-                              point: _location,
-                              width: 48,
-                              height: 56,
-                              child: const _MapPin(),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
+          isMobile ? _buildMobile() : _buildDesktop(),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildDesktop() {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(
+          flex: 3,
+          child: _buildMap(),
+        ),
+        const SizedBox(width: 32),
+        Expanded(
+          flex: 2,
+          child: _buildInfoCard(height: 340),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildMobile() {
+    return Column(
+      children: [
+        _buildMap(),
+        const SizedBox(height: 16),
+        _buildInfoCard(height: null),
+      ],
+    );
+  }
+
+  Widget _buildMap() {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(8),
+      child: SizedBox(
+        height: 260,
+        child: FlutterMap(
+          options: MapOptions(
+            initialCenter: _location,
+            initialZoom: 14,
+          ),
+          children: [
+            TileLayer(
+              urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+              userAgentPackageName: 'com.casona.app',
+            ),
+            MarkerLayer(
+              markers: [
+                Marker(
+                  point: _location,
+                  width: 48,
+                  height: 56,
+                  child: const _MapPin(),
                 ),
-              ),
-              const SizedBox(width: 32),
-              // Info
-              Expanded(
-                flex: 2,
-                child: Container(
-                  height: 340,
-                  decoration: BoxDecoration(
-                    color: AppTheme.white,
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: const Color(0xFFE0D5C5)),
-                  ),
-                  child: const Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.location_on, size: 40, color: AppTheme.gold),
-                      SizedBox(height: 16),
-                      Text(
-                        'Calle Larga',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontFamily: 'Playfair Display',
-                          fontWeight: FontWeight.w600,
-                          color: AppTheme.dark,
-                        ),
-                      ),
-                      SizedBox(height: 6),
-                      Text(
-                        'Los Andes, Valparaíso',
-                        style: TextStyle(color: AppTheme.muted, fontSize: 14),
-                      ),
-                      SizedBox(height: 24),
-                      Divider(indent: 32, endIndent: 32, color: Color(0xFFE0D5C5)),
-                      SizedBox(height: 24),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 24),
-                        child: Text(
-                          'A 80 km de Santiago.\nAcceso fácil por Ruta 60.',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(color: AppTheme.muted, fontSize: 13, height: 1.7),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildInfoCard({required double? height}) {
+    return Container(
+      height: height,
+      width: double.infinity,
+      decoration: BoxDecoration(
+        color: AppTheme.white,
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: const Color(0xFFE0D5C5)),
+      ),
+      padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 24),
+      child: const Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(Icons.location_on, size: 40, color: AppTheme.gold),
+          SizedBox(height: 16),
+          Text(
+            'Calle Larga',
+            style: TextStyle(
+              fontSize: 20,
+              fontFamily: 'Playfair Display',
+              fontWeight: FontWeight.w600,
+              color: AppTheme.dark,
+            ),
+          ),
+          SizedBox(height: 6),
+          Text(
+            'Los Andes, Valparaíso',
+            style: TextStyle(color: AppTheme.muted, fontSize: 14),
+          ),
+          SizedBox(height: 24),
+          Divider(indent: 32, endIndent: 32, color: Color(0xFFE0D5C5)),
+          SizedBox(height: 24),
+          Text(
+            'A 80 km de Santiago.\nAcceso fácil por Ruta 60.',
+            textAlign: TextAlign.center,
+            style: TextStyle(color: AppTheme.muted, fontSize: 13, height: 1.7),
           ),
         ],
       ),

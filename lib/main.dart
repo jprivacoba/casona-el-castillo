@@ -60,39 +60,49 @@ class _MainNavigationState extends State<MainNavigation> {
 
   @override
   Widget build(BuildContext context) {
+    final isMobile = MediaQuery.of(context).size.width < 700;
+
     return Scaffold(
       backgroundColor: AppTheme.cream,
+      drawer: isMobile ? _buildDrawer(context) : null,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(64),
-        child: Container(
-          decoration: const BoxDecoration(
-            color: AppTheme.cream,
-            border: Border(
-              bottom: BorderSide(color: Color(0xFFE8DDD0), width: 1),
+        child: Builder(
+          builder: (ctx) => Container(
+            decoration: const BoxDecoration(
+              color: AppTheme.cream,
+              border: Border(
+                bottom: BorderSide(color: Color(0xFFE8DDD0), width: 1),
+              ),
             ),
-          ),
-          child: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 32),
-              child: Row(
-                children: [
-                  // Logo
-                  GestureDetector(
-                    onTap: () => _scrollToSection(_homeKey),
-                    child: Image.asset(
-                      'assets/images/logo.png',
-                      height: 48,
+            child: SafeArea(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: isMobile ? 16 : 32),
+                child: Row(
+                  children: [
+                    GestureDetector(
+                      onTap: () => _scrollToSection(_homeKey),
+                      child: Image.asset(
+                        'assets/images/logo.png',
+                        height: 48,
+                      ),
                     ),
-                  ),
-                  const Spacer(),
-                  // Nav items
-                  _navItem('Inicio', _homeKey),
-                  _navItem('Quiénes Somos', _aboutKey),
-                  _navItem('Ubicación', _locationKey),
-                  _navItem('Galería', _galleryKey),
-                  _navItem('Menú', _menuKey),
-                  _navItem('Contacto', _contactKey),
-                ],
+                    const Spacer(),
+                    if (isMobile)
+                      IconButton(
+                        icon: const Icon(Icons.menu, color: AppTheme.dark),
+                        onPressed: () => Scaffold.of(ctx).openDrawer(),
+                      )
+                    else ...[
+                      _navItem('Inicio', _homeKey),
+                      _navItem('Quiénes Somos', _aboutKey),
+                      _navItem('Ubicación', _locationKey),
+                      _navItem('Galería', _galleryKey),
+                      _navItem('Menú', _menuKey),
+                      _navItem('Contacto', _contactKey),
+                    ],
+                  ],
+                ),
               ),
             ),
           ),
@@ -113,6 +123,53 @@ class _MainNavigationState extends State<MainNavigation> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildDrawer(BuildContext context) {
+    return Drawer(
+      backgroundColor: AppTheme.cream,
+      child: SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+              child: Image.asset('assets/images/logo.png', height: 56),
+            ),
+            const Divider(color: Color(0xFFE8DDD0), height: 1),
+            const SizedBox(height: 8),
+            _drawerItem(context, 'Inicio', _homeKey),
+            _drawerItem(context, 'Quiénes Somos', _aboutKey),
+            _drawerItem(context, 'Ubicación', _locationKey),
+            _drawerItem(context, 'Galería', _galleryKey),
+            _drawerItem(context, 'Menú', _menuKey),
+            _drawerItem(context, 'Contacto', _contactKey),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _drawerItem(BuildContext context, String title, GlobalKey key) {
+    return ListTile(
+      contentPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 2),
+      title: Text(
+        title,
+        style: const TextStyle(
+          fontSize: 15,
+          fontWeight: FontWeight.w500,
+          color: AppTheme.text,
+          letterSpacing: 0.3,
+        ),
+      ),
+      onTap: () {
+        Navigator.pop(context);
+        Future.delayed(
+          const Duration(milliseconds: 300),
+          () => _scrollToSection(key),
+        );
+      },
     );
   }
 
@@ -141,7 +198,6 @@ class _MainNavigationState extends State<MainNavigation> {
       color: AppTheme.dark,
       child: Column(
         children: [
-          // Logo en contenedor claro
           ClipRRect(
             borderRadius: BorderRadius.circular(8),
             child: Image.asset(
@@ -152,16 +208,19 @@ class _MainNavigationState extends State<MainNavigation> {
           const SizedBox(height: 24),
           const Text(
             'Calle Larga, Los Andes · Valparaíso, Chile',
+            textAlign: TextAlign.center,
             style: TextStyle(color: Color(0xFFBBB3AA), fontSize: 14),
           ),
           const SizedBox(height: 4),
           const Text(
             'casonaelcastillo1933@gmail.com',
+            textAlign: TextAlign.center,
             style: TextStyle(color: Color(0xFFBBB3AA), fontSize: 14),
           ),
           const SizedBox(height: 28),
           const Text(
             '© 2026 Casona Fundo El Castillo · Todos los derechos reservados',
+            textAlign: TextAlign.center,
             style: TextStyle(fontSize: 11, color: Color(0xFF6A6058)),
           ),
         ],
