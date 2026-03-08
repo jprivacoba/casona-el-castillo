@@ -1,0 +1,180 @@
+import 'package:flutter/material.dart';
+import 'theme.dart';
+import 'home_screen.dart';
+import 'gallery_screen.dart';
+import 'menu_screen.dart';
+import 'contact_screen.dart';
+import 'sections.dart';
+
+void main() {
+  runApp(const CasonaApp());
+}
+
+class CasonaApp extends StatelessWidget {
+  const CasonaApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Casona Fundo El Castillo',
+      debugShowCheckedModeBanner: false,
+      theme: AppTheme.lightTheme,
+      home: const MainNavigation(),
+    );
+  }
+}
+
+class MainNavigation extends StatefulWidget {
+  const MainNavigation({super.key});
+
+  @override
+  State<MainNavigation> createState() => _MainNavigationState();
+}
+
+class _MainNavigationState extends State<MainNavigation> {
+  final ScrollController _scrollController = ScrollController();
+
+  final GlobalKey _homeKey = GlobalKey();
+  final GlobalKey _aboutKey = GlobalKey();
+  final GlobalKey _galleryKey = GlobalKey();
+  final GlobalKey _menuKey = GlobalKey();
+  final GlobalKey _locationKey = GlobalKey();
+  final GlobalKey _contactKey = GlobalKey();
+
+  void _scrollToSection(GlobalKey key) {
+    final ctx = key.currentContext;
+    if (ctx != null) {
+      Scrollable.ensureVisible(
+        ctx,
+        duration: const Duration(milliseconds: 700),
+        curve: Curves.easeInOut,
+      );
+    }
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: AppTheme.cream,
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(64),
+        child: Container(
+          decoration: const BoxDecoration(
+            color: AppTheme.cream,
+            border: Border(
+              bottom: BorderSide(color: Color(0xFFE8DDD0), width: 1),
+            ),
+          ),
+          child: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 32),
+              child: Row(
+                children: [
+                  // Logo
+                  GestureDetector(
+                    onTap: () => _scrollToSection(_homeKey),
+                    child: Image.asset(
+                      'assets/images/logo.png',
+                      height: 48,
+                    ),
+                  ),
+                  const Spacer(),
+                  // Nav items
+                  _navItem('Inicio', _homeKey),
+                  _navItem('Quiénes Somos', _aboutKey),
+                  _navItem('Ubicación', _locationKey),
+                  _navItem('Galería', _galleryKey),
+                  _navItem('Menú', _menuKey),
+                  _navItem('Contacto', _contactKey),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+      body: SingleChildScrollView(
+        controller: _scrollController,
+        physics: const ClampingScrollPhysics(),
+        child: Column(
+          children: [
+            HomeScreen(key: _homeKey, onContactTap: () => _scrollToSection(_contactKey)),
+            AboutSection(key: _aboutKey),
+            LocationSection(key: _locationKey),
+            GallerySection(key: _galleryKey),
+            MenuScreen(key: _menuKey),
+            ContactSection(key: _contactKey),
+            _buildFooter(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _navItem(String title, GlobalKey key) {
+    return TextButton(
+      onPressed: () => _scrollToSection(key),
+      style: TextButton.styleFrom(
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+        foregroundColor: AppTheme.text,
+      ),
+      child: Text(
+        title,
+        style: const TextStyle(
+          fontSize: 13,
+          fontWeight: FontWeight.w500,
+          letterSpacing: 0.3,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildFooter() {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 48, horizontal: 32),
+      width: double.infinity,
+      color: AppTheme.dark,
+      child: Column(
+        children: [
+          // Logo en contenedor claro
+          ClipRRect(
+            borderRadius: BorderRadius.circular(8),
+            child: Image.asset(
+              'assets/images/logo.png',
+              height: 100,
+            ),
+          ),
+          const SizedBox(height: 24),
+          const Text(
+            'Calle Larga, Los Andes · Valparaíso, Chile',
+            style: TextStyle(color: Color(0xFFBBB3AA), fontSize: 14),
+          ),
+          const SizedBox(height: 4),
+          const Text(
+            'casonaelcastillo1933@gmail.com',
+            style: TextStyle(color: Color(0xFFBBB3AA), fontSize: 14),
+          ),
+          const SizedBox(height: 28),
+          const Text(
+            '© 2026 Casona Fundo El Castillo · Todos los derechos reservados',
+            style: TextStyle(fontSize: 11, color: Color(0xFF6A6058)),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class GallerySection extends StatelessWidget {
+  const GallerySection({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const GalleryScreen();
+  }
+}
