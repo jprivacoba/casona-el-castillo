@@ -36,6 +36,7 @@ class _MainNavigationState extends State<MainNavigation> {
 
   final GlobalKey _homeKey = GlobalKey();
   final GlobalKey _aboutKey = GlobalKey();
+  final GlobalKey _historiaEventosKey = GlobalKey();
   final GlobalKey _galleryKey = GlobalKey();
   final GlobalKey _menuKey = GlobalKey();
   final GlobalKey _locationKey = GlobalKey();
@@ -96,6 +97,7 @@ class _MainNavigationState extends State<MainNavigation> {
                     else ...[
                       _navItem('Inicio', _homeKey),
                       _navItem('Quiénes Somos', _aboutKey),
+                      _navItem('Historia y Eventos', _historiaEventosKey),
                       _navItem('Ubicación', _locationKey),
                       _navItem('Galería', _galleryKey),
                       _navItem('Menú', _menuKey),
@@ -115,6 +117,7 @@ class _MainNavigationState extends State<MainNavigation> {
           children: [
             HomeScreen(key: _homeKey, onContactTap: () => _scrollToSection(_contactKey)),
             AboutSection(key: _aboutKey),
+            HistoriaEventosSection(key: _historiaEventosKey),
             LocationSection(key: _locationKey),
             GallerySection(key: _galleryKey),
             MenuScreen(key: _menuKey),
@@ -141,6 +144,7 @@ class _MainNavigationState extends State<MainNavigation> {
             const SizedBox(height: 8),
             _drawerItem(context, 'Inicio', _homeKey),
             _drawerItem(context, 'Quiénes Somos', _aboutKey),
+            _drawerItem(context, 'Historia y Eventos', _historiaEventosKey),
             _drawerItem(context, 'Ubicación', _locationKey),
             _drawerItem(context, 'Galería', _galleryKey),
             _drawerItem(context, 'Menú', _menuKey),

@@ -1,7 +1,8 @@
 {
   "permissions": {
     "allow": [
-      "Bash(flutter build web --release)"
+      "Bash(flutter build web --release)",
+      "Bash(flutter analyze lib/sections.dart lib/main.dart)"
     ]
   }
 }

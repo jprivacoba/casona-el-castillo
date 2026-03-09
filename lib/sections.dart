@@ -2,6 +2,8 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:photo_view/photo_view.dart';
+import 'package:photo_view/photo_view_gallery.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'theme.dart';
 
@@ -395,6 +397,325 @@ class _TrianglePainter extends CustomPainter {
   @override
   bool shouldRepaint(_) => false;
 }
+
+// ─── Historia & Eventos ──────────────────────────────────────────────────────
+
+class HistoriaEventosSection extends StatefulWidget {
+  const HistoriaEventosSection({super.key});
+
+  @override
+  State<HistoriaEventosSection> createState() => _HistoriaEventosSectionState();
+}
+
+class _HistoriaEventosSectionState extends State<HistoriaEventosSection>
+    with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+
+  static const List<String> _historia = [
+    'assets/images/imagenes/historia/WhatsApp Image 2026-03-09 at 13.01.59.jpeg',
+    'assets/images/imagenes/historia/WhatsApp Image 2026-03-09 at 13.02.00.jpeg',
+    'assets/images/imagenes/historia/WhatsApp Image 2026-03-09 at 13.02.03.jpeg',
+    'assets/images/imagenes/historia/WhatsApp Image 2026-03-09 at 13.02.04.jpeg',
+    'assets/images/imagenes/historia/WhatsApp Image 2026-03-09 at 13.02.07.jpeg',
+  ];
+
+  static const List<String> _eventos = [
+    'assets/images/imagenes/eventos/WhatsApp Image 2026-03-09 at 12.58.04.jpeg',
+    'assets/images/imagenes/eventos/WhatsApp Image 2026-03-09 at 12.59.56.jpeg',
+    'assets/images/imagenes/eventos/WhatsApp Image 2026-03-09 at 13.02.06.jpeg',
+    'assets/images/imagenes/eventos/WhatsApp Image 2026-03-09 at 13.03.52.jpeg',
+    'assets/images/imagenes/eventos/WhatsApp Image 2026-03-09 at 13.03.53 (1).jpeg',
+    'assets/images/imagenes/eventos/WhatsApp Image 2026-03-09 at 13.03.53 (2).jpeg',
+    'assets/images/imagenes/eventos/WhatsApp Image 2026-03-09 at 13.03.53.jpeg',
+    'assets/images/imagenes/eventos/WhatsApp Image 2026-03-09 at 13.03.54 (1).jpeg',
+    'assets/images/imagenes/eventos/WhatsApp Image 2026-03-09 at 13.03.54.jpeg',
+    'assets/images/imagenes/eventos/WhatsApp Image 2026-03-09 at 13.03.55 (1).jpeg',
+    'assets/images/imagenes/eventos/WhatsApp Image 2026-03-09 at 13.03.55 (2).jpeg',
+    'assets/images/imagenes/eventos/WhatsApp Image 2026-03-09 at 13.03.55.jpeg',
+    'assets/images/imagenes/eventos/WhatsApp Image 2026-03-09 at 13.04.50 (1).jpeg',
+    'assets/images/imagenes/eventos/WhatsApp Image 2026-03-09 at 13.04.50 (2).jpeg',
+    'assets/images/imagenes/eventos/WhatsApp Image 2026-03-09 at 13.04.50.jpeg',
+    'assets/images/imagenes/eventos/WhatsApp Image 2026-03-09 at 13.04.51 (1).jpeg',
+    'assets/images/imagenes/eventos/WhatsApp Image 2026-03-09 at 13.04.51 (2).jpeg',
+    'assets/images/imagenes/eventos/WhatsApp Image 2026-03-09 at 13.04.51 (3).jpeg',
+    'assets/images/imagenes/eventos/WhatsApp Image 2026-03-09 at 13.04.51.jpeg',
+    'assets/images/imagenes/eventos/WhatsApp Image 2026-03-09 at 13.04.52 (1).jpeg',
+    'assets/images/imagenes/eventos/WhatsApp Image 2026-03-09 at 13.04.52.jpeg',
+  ];
+
+  int _selectedTab = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 2, vsync: this);
+    _tabController.addListener(() {
+      if (!_tabController.indexIsChanging) {
+        setState(() => _selectedTab = _tabController.index);
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final isMobile = MediaQuery.of(context).size.width < 700;
+    final images = _selectedTab == 0 ? _eventos : _historia;
+
+    return Container(
+      color: AppTheme.cream,
+      padding: EdgeInsets.symmetric(
+        vertical: isMobile ? 48 : 72,
+        horizontal: isMobile ? 16 : 40,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildHeader(context),
+          const SizedBox(height: 28),
+          _buildTabBar(),
+          const SizedBox(height: 24),
+          AnimatedSwitcher(
+            duration: const Duration(milliseconds: 250),
+            child: KeyedSubtree(
+              key: ValueKey(_selectedTab),
+              child: _PhotoGrid(images: images, isMobile: isMobile),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildHeader(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Container(width: 32, height: 1.5, color: AppTheme.gold),
+            const SizedBox(width: 10),
+            const Text(
+              'FOTOGRAFÍAS',
+              style: TextStyle(
+                fontSize: 11,
+                letterSpacing: 2.5,
+                color: AppTheme.gold,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 14),
+        Text('Historia y Eventos', style: Theme.of(context).textTheme.headlineMedium),
+        const SizedBox(height: 6),
+        Container(width: 48, height: 2, color: AppTheme.gold),
+        const SizedBox(height: 8),
+        const Text(
+          'Un recorrido visual por nuestra casona y los momentos que la hacen única.',
+          style: TextStyle(color: AppTheme.muted, fontSize: 13, height: 1.6),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildTabBar() {
+    return Container(
+      decoration: const BoxDecoration(
+        border: Border(bottom: BorderSide(color: Color(0xFFE0D5C5), width: 1.5)),
+      ),
+      child: TabBar(
+        controller: _tabController,
+        isScrollable: false,
+        labelColor: AppTheme.dark,
+        unselectedLabelColor: AppTheme.muted,
+        indicatorColor: AppTheme.gold,
+        indicatorWeight: 2,
+        labelStyle: const TextStyle(
+          fontSize: 13,
+          fontWeight: FontWeight.w600,
+          letterSpacing: 1.2,
+        ),
+        unselectedLabelStyle: const TextStyle(
+          fontSize: 13,
+          fontWeight: FontWeight.w400,
+          letterSpacing: 1.2,
+        ),
+        tabs: [
+          Tab(text: 'EVENTOS  (${_eventos.length})'),
+          Tab(text: 'HISTORIA  (${_historia.length})'),
+        ],
+      ),
+    );
+  }
+}
+
+class _PhotoGrid extends StatelessWidget {
+  final List<String> images;
+  final bool isMobile;
+
+  const _PhotoGrid({required this.images, required this.isMobile});
+
+  @override
+  Widget build(BuildContext context) {
+    return GridView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: isMobile ? 2 : 3,
+        crossAxisSpacing: isMobile ? 6 : 8,
+        mainAxisSpacing: isMobile ? 6 : 8,
+        childAspectRatio: 1.1,
+      ),
+      itemCount: images.length,
+      itemBuilder: (context, index) {
+        return GestureDetector(
+          onTap: () => _openViewer(context, index),
+          child: Hero(
+            tag: images[index],
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(6),
+              child: Image.asset(
+                images[index],
+                fit: BoxFit.cover,
+                cacheWidth: 400,
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void _openViewer(BuildContext context, int initialIndex) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => _FullscreenViewer(images: images, initialIndex: initialIndex),
+      ),
+    );
+  }
+}
+
+class _FullscreenViewer extends StatefulWidget {
+  final List<String> images;
+  final int initialIndex;
+
+  const _FullscreenViewer({required this.images, required this.initialIndex});
+
+  @override
+  State<_FullscreenViewer> createState() => _FullscreenViewerState();
+}
+
+class _FullscreenViewerState extends State<_FullscreenViewer> {
+  late int _current;
+  late PageController _pageController;
+
+  @override
+  void initState() {
+    super.initState();
+    _current = widget.initialIndex;
+    _pageController = PageController(initialPage: widget.initialIndex);
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  void _goTo(int index) {
+    if (index < 0 || index >= widget.images.length) return;
+    _pageController.animateToPage(
+      index,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.black,
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        foregroundColor: Colors.white,
+        elevation: 0,
+        centerTitle: true,
+        title: Text(
+          '${_current + 1} / ${widget.images.length}',
+          style: const TextStyle(color: Colors.white54, fontSize: 14, letterSpacing: 1),
+        ),
+      ),
+      body: Stack(
+        children: [
+          PhotoViewGallery.builder(
+            scrollPhysics: const ClampingScrollPhysics(),
+            builder: (context, index) => PhotoViewGalleryPageOptions(
+              imageProvider: AssetImage(widget.images[index]),
+              initialScale: PhotoViewComputedScale.contained,
+              heroAttributes: PhotoViewHeroAttributes(tag: widget.images[index]),
+            ),
+            itemCount: widget.images.length,
+            loadingBuilder: (context, event) => const Center(
+              child: CircularProgressIndicator(color: Colors.white38),
+            ),
+            pageController: _pageController,
+            onPageChanged: (index) => setState(() => _current = index),
+          ),
+          if (_current > 0)
+            Positioned(
+              left: 16,
+              top: 0,
+              bottom: 0,
+              child: Center(
+                child: _NavBtn(icon: Icons.chevron_left, onTap: () => _goTo(_current - 1)),
+              ),
+            ),
+          if (_current < widget.images.length - 1)
+            Positioned(
+              right: 16,
+              top: 0,
+              bottom: 0,
+              child: Center(
+                child: _NavBtn(icon: Icons.chevron_right, onTap: () => _goTo(_current + 1)),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+class _NavBtn extends StatelessWidget {
+  final IconData icon;
+  final VoidCallback onTap;
+  const _NavBtn({required this.icon, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: 48,
+        height: 48,
+        decoration: BoxDecoration(
+          color: Colors.black54,
+          shape: BoxShape.circle,
+          border: Border.all(color: Colors.white24),
+        ),
+        child: Icon(icon, color: Colors.white, size: 28),
+      ),
+    );
+  }
+}
+
+// ─── Shared label ─────────────────────────────────────────────────────────────
 
 Widget _sectionLabel(String text) {
   return Text(
