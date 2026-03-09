@@ -32,8 +32,14 @@ class _ContactSectionState extends State<ContactSection> {
       final isLocalhost = Uri.base.host == 'localhost' || Uri.base.host == '127.0.0.1';
 
       if (!isLocalhost) {
+        final uri = Uri(
+          scheme: Uri.base.scheme,
+          host: Uri.base.host,
+          port: Uri.base.port,
+          path: '/',
+        );
         final response = await http.post(
-          Uri.parse('/'),
+          uri,
           headers: {'Content-Type': 'application/x-www-form-urlencoded'},
           body: {
             'form-name': 'contacto',
@@ -42,7 +48,8 @@ class _ContactSectionState extends State<ContactSection> {
             'mensaje': _messageController.text,
           },
         );
-        if (response.statusCode != 200 && response.statusCode != 303) {
+        // Netlify devuelve 200 o redirige con 303
+        if (response.statusCode >= 400) {
           throw Exception('Status ${response.statusCode}');
         }
       }
