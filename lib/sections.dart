@@ -2,6 +2,7 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'theme.dart';
 
 class AboutSection extends StatelessWidget {
@@ -89,10 +90,23 @@ class AboutSection extends StatelessWidget {
   }
 }
 
-class LocationSection extends StatelessWidget {
+class LocationSection extends StatefulWidget {
   const LocationSection({super.key});
 
+  @override
+  State<LocationSection> createState() => _LocationSectionState();
+}
+
+class _LocationSectionState extends State<LocationSection> {
   static final LatLng _location = LatLng(-32.8850, -70.6494);
+  final MapController _mapController = MapController();
+
+  void _openInMaps() {
+    final uri = Uri.parse(
+      'https://www.google.com/maps/search/?api=1&query=${_location.latitude},${_location.longitude}',
+    );
+    launchUrl(uri, mode: LaunchMode.externalApplication);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -116,73 +130,125 @@ class LocationSection extends StatelessWidget {
           const SizedBox(height: 8),
           Container(width: 48, height: 2, color: AppTheme.gold),
           const SizedBox(height: 32),
-          isMobile ? _buildMobile() : _buildDesktop(),
+          if (isMobile) _buildMobile() else _buildDesktop(),
         ],
       ),
     );
   }
 
   Widget _buildDesktop() {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Expanded(
-          flex: 3,
-          child: _buildMap(),
-        ),
-        const SizedBox(width: 32),
-        Expanded(
-          flex: 2,
-          child: _buildInfoCard(height: 340),
-        ),
-      ],
+    return IntrinsicHeight(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Expanded(
+            flex: 3,
+            child: _buildMap(isMobile: false),
+          ),
+          const SizedBox(width: 32),
+          Expanded(
+            flex: 2,
+            child: _buildInfoCard(),
+          ),
+        ],
+      ),
     );
   }
 
   Widget _buildMobile() {
     return Column(
       children: [
-        _buildMap(),
+        _buildMap(isMobile: true),
         const SizedBox(height: 16),
-        _buildInfoCard(height: null),
+        _buildInfoCard(),
       ],
     );
   }
 
-  Widget _buildMap() {
+  Widget _buildMap({required bool isMobile}) {
+    // Móvil: solo dos dedos (un dedo hace scroll de página)
+    // Desktop: scroll wheel + drag completo
+    final interactionFlags = isMobile
+        ? InteractiveFlag.pinchZoom |
+          InteractiveFlag.pinchMove |
+          InteractiveFlag.doubleTapZoom
+        : InteractiveFlag.scrollWheelZoom |
+          InteractiveFlag.pinchZoom |
+          InteractiveFlag.drag |
+          InteractiveFlag.doubleTapZoom;
+
     return ClipRRect(
       borderRadius: BorderRadius.circular(8),
       child: SizedBox(
-        height: 260,
-        child: FlutterMap(
-          options: MapOptions(
-            initialCenter: _location,
-            initialZoom: 14,
-          ),
+        height: isMobile ? 240 : 340,
+        child: Stack(
           children: [
-            TileLayer(
-              urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-              userAgentPackageName: 'com.casona.app',
-            ),
-            MarkerLayer(
-              markers: [
-                Marker(
-                  point: _location,
-                  width: 48,
-                  height: 56,
-                  child: const _MapPin(),
+            FlutterMap(
+              mapController: _mapController,
+              options: MapOptions(
+                initialCenter: _location,
+                initialZoom: 14,
+                interactionOptions: InteractionOptions(
+                  flags: interactionFlags,
+                ),
+              ),
+              children: [
+                TileLayer(
+                  // ESRI World Topo Map (terrain)
+                  urlTemplate:
+                      'https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}',
+                  userAgentPackageName: 'com.casona.app',
+                ),
+                MarkerLayer(
+                  markers: [
+                    Marker(
+                      point: _location,
+                      width: 48,
+                      height: 56,
+                      child: GestureDetector(
+                        onTap: _openInMaps,
+                        child: const _MapPin(),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
+            // Botones de zoom (solo desktop)
+            if (!isMobile)
+              Positioned(
+                right: 12,
+                bottom: 24,
+                child: _ZoomButtons(controller: _mapController),
+              ),
+            // Indicador móvil
+            if (isMobile)
+              Positioned(
+                bottom: 8,
+                left: 0,
+                right: 0,
+                child: Center(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: Colors.black54,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: const Text(
+                      'Usa dos dedos para mover el mapa',
+                      style: TextStyle(color: Colors.white70, fontSize: 11),
+                    ),
+                  ),
+                ),
+              ),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildInfoCard({required double? height}) {
+  Widget _buildInfoCard() {
     return Container(
-      height: height,
       width: double.infinity,
       decoration: BoxDecoration(
         color: AppTheme.white,
@@ -190,12 +256,12 @@ class LocationSection extends StatelessWidget {
         border: Border.all(color: const Color(0xFFE0D5C5)),
       ),
       padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 24),
-      child: const Column(
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.location_on, size: 40, color: AppTheme.gold),
-          SizedBox(height: 16),
-          Text(
+          const Icon(Icons.location_on, size: 40, color: AppTheme.gold),
+          const SizedBox(height: 16),
+          const Text(
             'Calle Larga',
             style: TextStyle(
               fontSize: 20,
@@ -204,20 +270,82 @@ class LocationSection extends StatelessWidget {
               color: AppTheme.dark,
             ),
           ),
-          SizedBox(height: 6),
-          Text(
+          const SizedBox(height: 6),
+          const Text(
             'Los Andes, Valparaíso',
             style: TextStyle(color: AppTheme.muted, fontSize: 14),
           ),
-          SizedBox(height: 24),
-          Divider(indent: 32, endIndent: 32, color: Color(0xFFE0D5C5)),
-          SizedBox(height: 24),
-          Text(
+          const SizedBox(height: 24),
+          const Divider(indent: 32, endIndent: 32, color: Color(0xFFE0D5C5)),
+          const SizedBox(height: 24),
+          const Text(
             'A 80 km de Santiago.\nAcceso fácil por Ruta 60.',
             textAlign: TextAlign.center,
             style: TextStyle(color: AppTheme.muted, fontSize: 13, height: 1.7),
           ),
+          const SizedBox(height: 20),
+          OutlinedButton.icon(
+            onPressed: _openInMaps,
+            icon: const Icon(Icons.map_outlined, size: 16),
+            label: const Text('Abrir en Google Maps'),
+            style: OutlinedButton.styleFrom(
+              foregroundColor: AppTheme.dark,
+              side: const BorderSide(color: AppTheme.gold),
+              textStyle: const TextStyle(fontSize: 12, letterSpacing: 0.5),
+            ),
+          ),
         ],
+      ),
+    );
+  }
+}
+
+class _ZoomButtons extends StatelessWidget {
+  final MapController controller;
+  const _ZoomButtons({required this.controller});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        _ZoomButton(
+          icon: Icons.add,
+          onTap: () => controller.move(
+            controller.camera.center,
+            controller.camera.zoom + 1,
+          ),
+        ),
+        const SizedBox(height: 4),
+        _ZoomButton(
+          icon: Icons.remove,
+          onTap: () => controller.move(
+            controller.camera.center,
+            controller.camera.zoom - 1,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _ZoomButton extends StatelessWidget {
+  final IconData icon;
+  final VoidCallback onTap;
+  const _ZoomButton({required this.icon, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: 32,
+        height: 32,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(4),
+          boxShadow: const [BoxShadow(color: Colors.black26, blurRadius: 4)],
+        ),
+        child: Icon(icon, size: 18, color: AppTheme.dark),
       ),
     );
   }

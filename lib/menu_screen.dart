@@ -6,8 +6,8 @@ class MenuScreen extends StatelessWidget {
   const MenuScreen({super.key});
 
   Future<void> _launchURL(String url) async {
-    final Uri uri = Uri.parse(url);
-    if (!await launchUrl(uri)) {
+    final Uri uri = Uri.base.resolve(Uri.encodeFull(url));
+    if (!await launchUrl(uri, webOnlyWindowName: '_blank')) {
       throw Exception('Could not launch $url');
     }
   }
@@ -39,15 +39,15 @@ class MenuScreen extends StatelessWidget {
             'Pack Asado',
             'Ideal para celebraciones al fuego lento.',
             'assets/images/foto asado.jpg',
-            'assets/docs/pack asado.pdf',
+            'assets/assets/docs/pack asado.pdf',
           ),
           const SizedBox(height: 16),
           _buildMenuCard(
             context,
             'Pack Fundo El Castillo',
             'Experiencia gastronómica completa en la casona.',
-            'assets/images/foto pack.png',
-            'assets/docs/pack fundo el castillo.pdf',
+            'assets/images/foto pack.jpg',
+            'assets/assets/docs/pack fundo el castillo.pdf',
           ),
         ],
       ),

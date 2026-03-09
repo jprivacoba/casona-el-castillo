@@ -11,7 +11,7 @@ class GalleryScreen extends StatelessWidget {
     'assets/images/quienes-somos.jpg',
     'assets/images/ubicacion.jpg',
     'assets/images/foto asado.jpg',
-    'assets/images/foto pack.png',
+    'assets/images/foto pack.jpg',
     'assets/images/img2.jpg',
     'assets/images/img3.jpg',
     'assets/images/img4.jpg',

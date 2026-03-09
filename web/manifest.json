@@ -1,11 +1,11 @@
 {
-    "name": "casona_app",
-    "short_name": "casona_app",
+    "name": "Casona Fundo El Castillo",
+    "short_name": "El Castillo",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "background_color": "#F5F0E8",
+    "theme_color": "#B8960C",
+    "description": "Centro de eventos en Los Andes, Valparaíso. Historia, naturaleza y elegancia en un parque francés centenario.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

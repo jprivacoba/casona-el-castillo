@@ -28,14 +28,25 @@ class _ContactSectionState extends State<ContactSection> {
   Future<void> _submitForm() async {
     if (!_formKey.currentState!.validate()) return;
     setState(() => _isLoading = true);
-    final url = Uri.parse(
-        'https://docs.google.com/forms/d/e/1FAIpQLSc-UTSCsYmPvigitThKdSBc2pXMQjB62hQy5cB36yLv8Myf8g/formResponse');
     try {
-      await http.post(url, body: {
-        'entry.519077465': _nameController.text,
-        'entry.616392886': _emailController.text,
-        'entry.1778128583': _messageController.text,
-      });
+      final isLocalhost = Uri.base.host == 'localhost' || Uri.base.host == '127.0.0.1';
+
+      if (!isLocalhost) {
+        final response = await http.post(
+          Uri.parse('/'),
+          headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+          body: {
+            'form-name': 'contacto',
+            'nombre': _nameController.text,
+            'correo': _emailController.text,
+            'mensaje': _messageController.text,
+          },
+        );
+        if (response.statusCode != 200 && response.statusCode != 303) {
+          throw Exception('Status ${response.statusCode}');
+        }
+      }
+
       setState(() {
         _isSent = true;
         _nameController.clear();
