@@ -1,6 +1,10 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'theme.dart';
+
+// Reemplaza con tu ID de Formspree: https://formspree.io → New form → copia el ID
+const _kFormspreeId = 'xyknkdqo';
 
 class ContactSection extends StatefulWidget {
   const ContactSection({super.key});
@@ -32,23 +36,18 @@ class _ContactSectionState extends State<ContactSection> {
       final isLocalhost = Uri.base.host == 'localhost' || Uri.base.host == '127.0.0.1';
 
       if (!isLocalhost) {
-        final uri = Uri(
-          scheme: Uri.base.scheme,
-          host: Uri.base.host,
-          port: Uri.base.port,
-          path: '/',
-        );
         final response = await http.post(
-          uri,
-          headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-          body: {
-            'form-name': 'contacto',
-            'nombre': _nameController.text,
-            'correo': _emailController.text,
-            'mensaje': _messageController.text,
+          Uri.parse('https://formspree.io/f/$_kFormspreeId'),
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
           },
+          body: jsonEncode({
+            'nombre': _nameController.text,
+            '_replyto': _emailController.text,
+            'mensaje': _messageController.text,
+          }),
         );
-        // Netlify devuelve 200 o redirige con 303
         if (response.statusCode >= 400) {
           throw Exception('Status ${response.statusCode}');
         }
