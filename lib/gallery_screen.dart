@@ -110,7 +110,7 @@ class GalleryScreen extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 14),
-        Text('Momentos en la Casona', style: Theme.of(context).textTheme.headlineMedium),
+        Text('Espacios con historia', style: Theme.of(context).textTheme.headlineMedium),
         const SizedBox(height: 6),
         Container(width: 48, height: 2, color: AppTheme.gold),
         const SizedBox(height: 8),

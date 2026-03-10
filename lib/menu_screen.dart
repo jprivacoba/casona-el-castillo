@@ -36,14 +36,6 @@ class MenuScreen extends StatelessWidget {
           const SizedBox(height: 32),
           _buildMenuCard(
             context,
-            'Pack Asado',
-            'Ideal para celebraciones al fuego lento.',
-            'assets/images/foto asado.jpg',
-            'assets/assets/docs/pack asado.pdf',
-          ),
-          const SizedBox(height: 16),
-          _buildMenuCard(
-            context,
             'Pack Fundo El Castillo',
             'Experiencia gastronómica completa en la casona.',
             'assets/images/foto pack.jpg',
