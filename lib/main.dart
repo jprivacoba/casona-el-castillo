@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'theme.dart';
 import 'home_screen.dart';
@@ -19,6 +20,13 @@ class CasonaApp extends StatelessWidget {
       title: 'Casona Fundo El Castillo',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
+      scrollBehavior: const MaterialScrollBehavior().copyWith(
+        dragDevices: {
+          PointerDeviceKind.mouse,
+          PointerDeviceKind.touch,
+          PointerDeviceKind.trackpad,
+        },
+      ),
       home: const MainNavigation(),
     );
   }
@@ -112,7 +120,7 @@ class _MainNavigationState extends State<MainNavigation> {
       ),
       body: SingleChildScrollView(
         controller: _scrollController,
-        physics: const ClampingScrollPhysics(),
+        physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
         child: Column(
           children: [
             HomeScreen(key: _homeKey, onContactTap: () => _scrollToSection(_contactKey)),
