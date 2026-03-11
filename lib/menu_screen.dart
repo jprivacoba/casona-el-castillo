@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'config.dart';
 import 'theme.dart';
 
 class MenuScreen extends StatelessWidget {
@@ -33,22 +34,24 @@ class MenuScreen extends StatelessWidget {
             'Cocina de campo chilena con acentos contemporáneos.',
             style: Theme.of(context).textTheme.bodyMedium,
           ),
-          const SizedBox(height: 32),
-          _buildMenuCard(
-            context,
-            'Pack Asado',
-            'Banquetería Martha Correa — evento tipo asado.',
-            'assets/images/foto asado.jpg',
-            'assets/assets/docs/pack-asado.pdf',
-          ),
-          const SizedBox(height: 24),
-          _buildMenuCard(
-            context,
-            'Pack Fundo El Castillo',
-            'Experiencia gastronómica completa en la casona.',
-            'assets/images/foto pack.jpg',
-            'assets/assets/docs/pack-fundo-el-castillo.pdf',
-          ),
+          if (AppConfig.showPacks) ...[
+            const SizedBox(height: 32),
+            _buildMenuCard(
+              context,
+              'Pack Asado',
+              'Banquetería Martha Correa — evento tipo asado.',
+              'assets/images/foto asado.jpg',
+              'assets/assets/docs/pack-asado.pdf',
+            ),
+            const SizedBox(height: 24),
+            _buildMenuCard(
+              context,
+              'Pack Fundo El Castillo',
+              'Experiencia gastronómica completa en la casona.',
+              'assets/images/foto pack.jpg',
+              'assets/assets/docs/pack-fundo-el-castillo.pdf',
+            ),
+          ],
         ],
       ),
     );
