@@ -10,7 +10,6 @@ class GalleryScreen extends StatelessWidget {
     'assets/images/hero.jpg',
     'assets/images/quienes-somos.jpg',
     'assets/images/ubicacion.jpg',
-    'assets/images/foto asado.jpg',
     'assets/images/foto pack.jpg',
     'assets/images/img2.jpg',
     'assets/images/img3.jpg',
@@ -143,7 +142,8 @@ class GalleryScreen extends StatelessWidget {
               child: Image.asset(
                 _images[index],
                 fit: BoxFit.cover,
-                cacheWidth: 400,
+                cacheWidth: 900,
+                filterQuality: FilterQuality.high,
               ),
             ),
           ),
