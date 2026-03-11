@@ -39,7 +39,7 @@ class MenuScreen extends StatelessWidget {
             'Pack Asado',
             'Banquetería Martha Correa — evento tipo asado.',
             'assets/images/foto asado.jpg',
-            'assets/docs/pack asado.pdf',
+            'assets/assets/docs/pack-asado.pdf',
           ),
           const SizedBox(height: 24),
           _buildMenuCard(
@@ -47,7 +47,7 @@ class MenuScreen extends StatelessWidget {
             'Pack Fundo El Castillo',
             'Experiencia gastronómica completa en la casona.',
             'assets/images/foto pack.jpg',
-            'assets/docs/pack fundo el castillo.pdf',
+            'assets/assets/docs/pack-fundo-el-castillo.pdf',
           ),
         ],
       ),
