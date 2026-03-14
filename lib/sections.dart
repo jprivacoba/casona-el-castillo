@@ -420,7 +420,11 @@ class _HistoriaEventosSectionState extends State<HistoriaEventosSection>
     'assets/images/imagenes/historia/WhatsApp Image 2026-03-09 at 13.02.07.jpeg',
   ];
 
-  static const List<String> _carpa = [];
+  static const List<String> _carpa = [
+    'assets/images/carpa/carpa1.jpeg',
+    'assets/images/carpa/carpa2.jpeg',
+    'assets/images/carpa/carpa3.jpeg',
+  ];
 
   static const List<String> _eventos = [
     'assets/images/imagenes/eventos/WhatsApp Image 2026-03-09 at 12.58.04.jpeg',
@@ -482,9 +486,7 @@ class _HistoriaEventosSectionState extends State<HistoriaEventosSection>
             duration: const Duration(milliseconds: 250),
             child: KeyedSubtree(
               key: ValueKey(_selectedTab),
-              child: _selectedTab == 2
-                  ? const _CarpaProximamente()
-                  : _PhotoGrid(
+              child: _PhotoGrid(
                       images: images,
                       isMobile: isMobile,
                       videoPath: _selectedTab == 0
@@ -555,83 +557,13 @@ class _HistoriaEventosSectionState extends State<HistoriaEventosSection>
         tabs: [
           Tab(text: 'EVENTOS  (${_eventos.length})'),
           Tab(text: 'HISTORIA  (${_historia.length})'),
-          const Tab(text: 'EVENTOS EN CARPA'),
+          Tab(text: 'EVENTOS EN CARPA  (${_carpa.length})'),
         ],
       ),
     );
   }
 }
 
-class _CarpaProximamente extends StatelessWidget {
-  const _CarpaProximamente();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.symmetric(vertical: 64, horizontal: 24),
-      decoration: BoxDecoration(
-        color: AppTheme.white,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: const Color(0xFFE0D5C5)),
-      ),
-      child: Column(
-        children: [
-          Container(
-            width: 64,
-            height: 64,
-            decoration: BoxDecoration(
-              color: AppTheme.cream,
-              shape: BoxShape.circle,
-              border: Border.all(color: AppTheme.gold, width: 1.5),
-            ),
-            child: const Icon(Icons.photo_camera_outlined, color: AppTheme.gold, size: 30),
-          ),
-          const SizedBox(height: 28),
-          const Text(
-            'Próximamente',
-            style: TextStyle(
-              fontFamily: 'Playfair Display',
-              fontSize: 26,
-              fontWeight: FontWeight.w600,
-              color: AppTheme.dark,
-              letterSpacing: 0.5,
-            ),
-          ),
-          const SizedBox(height: 12),
-          Container(width: 40, height: 1.5, color: AppTheme.gold),
-          const SizedBox(height: 20),
-          const Text(
-            'Estamos preparando una galería especial\ncon los momentos más memorables\nde nuestros eventos en carpa.',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: AppTheme.muted,
-              fontSize: 14,
-              height: 1.8,
-            ),
-          ),
-          const SizedBox(height: 32),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            decoration: BoxDecoration(
-              border: Border.all(color: AppTheme.gold),
-              borderRadius: BorderRadius.circular(4),
-            ),
-            child: const Text(
-              'IMÁGENES EN CAMINO',
-              style: TextStyle(
-                fontSize: 11,
-                letterSpacing: 2,
-                color: AppTheme.gold,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
 
 class _PhotoGrid extends StatelessWidget {
   final List<String> images;
