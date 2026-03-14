@@ -1,5 +1,6 @@
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
+import 'package:video_player/video_player.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:photo_view/photo_view.dart';
@@ -483,7 +484,13 @@ class _HistoriaEventosSectionState extends State<HistoriaEventosSection>
               key: ValueKey(_selectedTab),
               child: _selectedTab == 2
                   ? const _CarpaProximamente()
-                  : _PhotoGrid(images: images, isMobile: isMobile),
+                  : _PhotoGrid(
+                      images: images,
+                      isMobile: isMobile,
+                      videoPath: _selectedTab == 0
+                          ? 'assets/videos/video-eventos.mp4'
+                          : null,
+                    ),
             ),
           ),
         ],
@@ -629,11 +636,15 @@ class _CarpaProximamente extends StatelessWidget {
 class _PhotoGrid extends StatelessWidget {
   final List<String> images;
   final bool isMobile;
+  final String? videoPath;
 
-  const _PhotoGrid({required this.images, required this.isMobile});
+  const _PhotoGrid({required this.images, required this.isMobile, this.videoPath});
 
   @override
   Widget build(BuildContext context) {
+    final hasVideo = videoPath != null;
+    final totalCount = images.length + (hasVideo ? 1 : 0);
+
     return GridView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
@@ -643,16 +654,20 @@ class _PhotoGrid extends StatelessWidget {
         mainAxisSpacing: isMobile ? 6 : 8,
         childAspectRatio: 1.1,
       ),
-      itemCount: images.length,
+      itemCount: totalCount,
       itemBuilder: (context, index) {
+        if (hasVideo && index == 0) {
+          return _VideoTile(videoPath: videoPath!);
+        }
+        final imgIndex = index - (hasVideo ? 1 : 0);
         return GestureDetector(
-          onTap: () => _openViewer(context, index),
+          onTap: () => _openViewer(context, imgIndex),
           child: Hero(
-            tag: images[index],
+            tag: images[imgIndex],
             child: ClipRRect(
               borderRadius: BorderRadius.circular(6),
               child: Image.asset(
-                images[index],
+                images[imgIndex],
                 fit: BoxFit.cover,
                 cacheWidth: 400,
               ),
@@ -668,6 +683,128 @@ class _PhotoGrid extends StatelessWidget {
       context,
       MaterialPageRoute(
         builder: (_) => _FullscreenViewer(images: images, initialIndex: initialIndex),
+      ),
+    );
+  }
+}
+
+class _VideoTile extends StatelessWidget {
+  final String videoPath;
+  const _VideoTile({required this.videoPath});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () => showDialog(
+        context: context,
+        builder: (_) => _VideoDialog(videoPath: videoPath),
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(6),
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            Image.asset(
+              'assets/images/video-preview.jpg',
+              fit: BoxFit.cover,
+            ),
+            Container(color: Colors.black38),
+            const Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(Icons.play_circle_outline, color: AppTheme.gold, size: 40),
+                  SizedBox(height: 8),
+                  Text(
+                    'VER VIDEO',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 11,
+                      letterSpacing: 1.5,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _VideoDialog extends StatefulWidget {
+  final String videoPath;
+  const _VideoDialog({required this.videoPath});
+
+  @override
+  State<_VideoDialog> createState() => _VideoDialogState();
+}
+
+class _VideoDialogState extends State<_VideoDialog> {
+  late VideoPlayerController _controller;
+  bool _initialized = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = VideoPlayerController.asset(widget.videoPath)
+      ..initialize().then((_) {
+        if (mounted) {
+          setState(() => _initialized = true);
+          _controller.play();
+        }
+      });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      backgroundColor: Colors.black,
+      insetPadding: const EdgeInsets.all(16),
+      child: Stack(
+        children: [
+          _initialized
+              ? AspectRatio(
+                  aspectRatio: _controller.value.aspectRatio,
+                  child: GestureDetector(
+                    onTap: () => setState(() {
+                      _controller.value.isPlaying
+                          ? _controller.pause()
+                          : _controller.play();
+                    }),
+                    child: VideoPlayer(_controller),
+                  ),
+                )
+              : const AspectRatio(
+                  aspectRatio: 16 / 9,
+                  child: Center(
+                    child: CircularProgressIndicator(color: AppTheme.gold),
+                  ),
+                ),
+          Positioned(
+            top: 8,
+            right: 8,
+            child: GestureDetector(
+              onTap: () => Navigator.pop(context),
+              child: Container(
+                decoration: const BoxDecoration(
+                  color: Colors.black54,
+                  shape: BoxShape.circle,
+                ),
+                padding: const EdgeInsets.all(4),
+                child: const Icon(Icons.close, color: Colors.white, size: 20),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

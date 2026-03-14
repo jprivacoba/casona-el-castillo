@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'config.dart';
 import 'theme.dart';
 import 'home_screen.dart';
 import 'gallery_screen.dart';
@@ -108,7 +109,7 @@ class _MainNavigationState extends State<MainNavigation> {
                       _navItem('Galería', _galleryKey),
                       _navItem('Historia y Eventos', _historiaEventosKey),
                       _navItem('Ubicación', _locationKey),
-                      _navItem('Menú', _menuKey),
+                      if (AppConfig.showMenu) _navItem('Menú', _menuKey),
                       _navItem('Contacto', _contactKey),
                     ],
                   ],
@@ -128,7 +129,7 @@ class _MainNavigationState extends State<MainNavigation> {
             GallerySection(key: _galleryKey),
             HistoriaEventosSection(key: _historiaEventosKey),
             LocationSection(key: _locationKey),
-            MenuScreen(key: _menuKey),
+            if (AppConfig.showMenu) MenuScreen(key: _menuKey),
             ContactSection(key: _contactKey),
             _buildFooter(),
           ],
@@ -155,7 +156,7 @@ class _MainNavigationState extends State<MainNavigation> {
             _drawerItem(context, 'Galería', _galleryKey),
             _drawerItem(context, 'Historia y Eventos', _historiaEventosKey),
             _drawerItem(context, 'Ubicación', _locationKey),
-            _drawerItem(context, 'Menú', _menuKey),
+            if (AppConfig.showMenu) _drawerItem(context, 'Menú', _menuKey),
             _drawerItem(context, 'Contacto', _contactKey),
           ],
         ),

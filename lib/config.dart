@@ -5,4 +5,7 @@ class AppConfig {
 
   /// Muestra las tarjetas de Pack Asado y Pack Fundo El Castillo en la sección de Menú.
   static const bool showPacks = false;
+
+  /// Muestra la sección "Nuestras Cartas" (Menú) en la página y en la navegación.
+  static const bool showMenu = false;
 }

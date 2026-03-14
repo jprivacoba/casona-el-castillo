@@ -38,6 +38,7 @@ dependencies:
   carousel_slider: ^5.1.2
   flutter_map: ^7.0.2
   latlong2: ^0.9.1
+  video_player: ^2.9.2
 
 dev_dependencies:
   flutter_test:
@@ -52,3 +53,4 @@ flutter:
     - assets/images/imagenes/historia/
     - assets/images/imagenes/eventos/
     - assets/docs/
+    - assets/videos/
