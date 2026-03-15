@@ -1,5 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'config.dart';
 import 'theme.dart';
 import 'home_screen.dart';
@@ -111,6 +113,18 @@ class _MainNavigationState extends State<MainNavigation> {
                       _navItem('Ubicación', _locationKey),
                       if (AppConfig.showMenu) _navItem('Menú', _menuKey),
                       _navItem('Contacto', _contactKey),
+                      const SizedBox(width: 8),
+                      _SocialIcon(
+                        faIcon: FontAwesomeIcons.instagram,
+                        url: 'https://www.instagram.com/casonafundoelcastillo/',
+                        dark: false,
+                      ),
+                      const SizedBox(width: 8),
+                      _SocialIcon(
+                        faIcon: FontAwesomeIcons.whatsapp,
+                        url: 'https://wa.me/56997794301',
+                        dark: false,
+                      ),
                     ],
                   ],
                 ),
@@ -158,6 +172,27 @@ class _MainNavigationState extends State<MainNavigation> {
             _drawerItem(context, 'Ubicación', _locationKey),
             if (AppConfig.showMenu) _drawerItem(context, 'Menú', _menuKey),
             _drawerItem(context, 'Contacto', _contactKey),
+            const SizedBox(height: 16),
+            const Divider(color: Color(0xFFE8DDD0), height: 1),
+            const SizedBox(height: 16),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: Row(
+                children: [
+                  _SocialIcon(
+                    faIcon: FontAwesomeIcons.instagram,
+                    url: 'https://www.instagram.com/casonafundoelcastillo/',
+                    dark: false,
+                  ),
+                  const SizedBox(width: 12),
+                  _SocialIcon(
+                    faIcon: FontAwesomeIcons.whatsapp,
+                    url: 'https://wa.me/56997794301',
+                    dark: false,
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),
@@ -230,6 +265,21 @@ class _MainNavigationState extends State<MainNavigation> {
             textAlign: TextAlign.center,
             style: TextStyle(color: Color(0xFFBBB3AA), fontSize: 14),
           ),
+          const SizedBox(height: 20),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              _SocialIcon(
+                faIcon: FontAwesomeIcons.instagram,
+                url: 'https://www.instagram.com/casonafundoelcastillo/',
+              ),
+              const SizedBox(width: 12),
+              _SocialIcon(
+                faIcon: FontAwesomeIcons.whatsapp,
+                url: 'https://wa.me/56997794301',
+              ),
+            ],
+          ),
           const SizedBox(height: 28),
           const Text(
             '© 2026 Casona Fundo El Castillo · Todos los derechos reservados',
@@ -237,6 +287,50 @@ class _MainNavigationState extends State<MainNavigation> {
             style: TextStyle(fontSize: 11, color: Color(0xFF6A6058)),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _SocialIcon extends StatefulWidget {
+  final IconData faIcon;
+  final String url;
+  final bool dark; // true = footer (dark bg), false = navbar (light bg)
+  const _SocialIcon({required this.faIcon, required this.url, this.dark = true});
+
+  @override
+  State<_SocialIcon> createState() => _SocialIconState();
+}
+
+class _SocialIconState extends State<_SocialIcon> {
+  bool _hovered = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final idleColor = widget.dark ? const Color(0xFFBBB3AA) : AppTheme.muted;
+    final idleBorder = widget.dark ? const Color(0xFF4A4038) : const Color(0xFFD0C8BC);
+    return MouseRegion(
+      onEnter: (_) => setState(() => _hovered = true),
+      onExit: (_) => setState(() => _hovered = false),
+      cursor: SystemMouseCursors.click,
+      child: GestureDetector(
+        onTap: () => launchUrl(Uri.parse(widget.url), mode: LaunchMode.externalApplication),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 150),
+          padding: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            border: Border.all(
+              color: _hovered ? AppTheme.gold : idleBorder,
+              width: 1.5,
+            ),
+          ),
+          child: FaIcon(
+            widget.faIcon,
+            size: 16,
+            color: _hovered ? AppTheme.gold : idleColor,
+          ),
+        ),
       ),
     );
   }
