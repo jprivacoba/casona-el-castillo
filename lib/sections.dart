@@ -468,7 +468,7 @@ class _HistoriaEventosSectionState extends State<HistoriaEventosSection>
   @override
   Widget build(BuildContext context) {
     final isMobile = MediaQuery.of(context).size.width < 700;
-    final images = _selectedTab == 0 ? _eventos : (_selectedTab == 1 ? _historia : _carpa);
+    final images = _selectedTab == 0 ? _eventos : (_selectedTab == 1 ? _carpa : _historia);
 
     return Container(
       color: AppTheme.cream,
@@ -560,8 +560,8 @@ class _HistoriaEventosSectionState extends State<HistoriaEventosSection>
         ),
         tabs: [
           Tab(text: 'EVENTOS  (${_eventos.length})'),
-          Tab(text: 'HISTORIA  (${_historia.length})'),
           Tab(text: 'EVENTOS EN CARPA  (${_carpa.length})'),
+          Tab(text: 'HISTORIA  (${_historia.length})'),
         ],
       ),
     );
