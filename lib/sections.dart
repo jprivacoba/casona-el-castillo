@@ -490,8 +490,11 @@ class _HistoriaEventosSectionState extends State<HistoriaEventosSection>
               child: _PhotoGrid(
                       images: images,
                       isMobile: isMobile,
-                      videoPath: _selectedTab == 0
-                          ? 'assets/videos/video-eventos.mp4'
+                      videos: _selectedTab == 0
+                          ? [
+                              (videoPath: 'assets/videos/video-eventos.mp4', previewPath: 'assets/images/video-preview.jpg'),
+                              (videoPath: 'assets/videos/video-eventos-2.mp4', previewPath: 'assets/images/video-preview-2.jpg'),
+                            ]
                           : null,
                     ),
             ),
@@ -569,14 +572,14 @@ class _HistoriaEventosSectionState extends State<HistoriaEventosSection>
 class _PhotoGrid extends StatelessWidget {
   final List<String> images;
   final bool isMobile;
-  final String? videoPath;
+  final List<({String videoPath, String previewPath})>? videos;
 
-  const _PhotoGrid({required this.images, required this.isMobile, this.videoPath});
+  const _PhotoGrid({required this.images, required this.isMobile, this.videos});
 
   @override
   Widget build(BuildContext context) {
-    final hasVideo = videoPath != null;
-    final totalCount = images.length + (hasVideo ? 1 : 0);
+    final videoCount = videos?.length ?? 0;
+    final totalCount = images.length + videoCount;
 
     return GridView.builder(
       shrinkWrap: true,
@@ -589,10 +592,11 @@ class _PhotoGrid extends StatelessWidget {
       ),
       itemCount: totalCount,
       itemBuilder: (context, index) {
-        if (hasVideo && index == 0) {
-          return _VideoTile(videoPath: videoPath!);
+        if (index < videoCount) {
+          final v = videos![index];
+          return _VideoTile(videoPath: v.videoPath, previewPath: v.previewPath);
         }
-        final imgIndex = index - (hasVideo ? 1 : 0);
+        final imgIndex = index - videoCount;
         return GestureDetector(
           onTap: () => _openViewer(context, imgIndex),
           child: Hero(
@@ -623,7 +627,8 @@ class _PhotoGrid extends StatelessWidget {
 
 class _VideoTile extends StatelessWidget {
   final String videoPath;
-  const _VideoTile({required this.videoPath});
+  final String previewPath;
+  const _VideoTile({required this.videoPath, required this.previewPath});
 
   @override
   Widget build(BuildContext context) {
@@ -638,7 +643,7 @@ class _VideoTile extends StatelessWidget {
           fit: StackFit.expand,
           children: [
             Image.asset(
-              'assets/images/video-preview.jpg',
+              previewPath,
               fit: BoxFit.cover,
             ),
             Container(color: Colors.black38),
