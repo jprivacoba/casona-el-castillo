@@ -495,6 +495,10 @@ class _HistoriaEventosSectionState extends State<HistoriaEventosSection>
                               (videoPath: 'assets/videos/video-eventos.mp4', previewPath: 'assets/images/video-preview.jpg'),
                               (videoPath: 'assets/videos/video-eventos-2.mp4', previewPath: 'assets/images/video-preview-2.jpg'),
                             ]
+                          : _selectedTab == 1
+                          ? [
+                              (videoPath: 'assets/videos/evento_carpa_video_fadeout.mp4', previewPath: 'assets/images/carpa/carpa1.jpeg'),
+                            ]
                           : null,
                     ),
             ),
