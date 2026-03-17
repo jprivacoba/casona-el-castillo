@@ -265,7 +265,7 @@ class _LocationSectionState extends State<LocationSection> {
           const Icon(Icons.location_on, size: 40, color: AppTheme.gold),
           const SizedBox(height: 16),
           const Text(
-            'Calle Larga',
+            'Los Andes',
             style: TextStyle(
               fontSize: 20,
               fontFamily: 'Playfair Display',
@@ -273,16 +273,11 @@ class _LocationSectionState extends State<LocationSection> {
               color: AppTheme.dark,
             ),
           ),
-          const SizedBox(height: 6),
-          const Text(
-            'Los Andes, Valparaíso',
-            style: TextStyle(color: AppTheme.muted, fontSize: 14),
-          ),
           const SizedBox(height: 24),
           const Divider(indent: 32, endIndent: 32, color: Color(0xFFE0D5C5)),
           const SizedBox(height: 24),
           const Text(
-            'A 80 km de Santiago.\nAcceso fácil por Ruta 60.',
+            'A 50 km de Santiago.\nAcceso fácil por Ruta 60.',
             textAlign: TextAlign.center,
             style: TextStyle(color: AppTheme.muted, fontSize: 13, height: 1.7),
           ),
