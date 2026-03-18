@@ -416,10 +416,11 @@ class _HistoriaEventosSectionState extends State<HistoriaEventosSection>
   ];
 
   static const List<String> _carpa = [
-    'assets/images/carpa/carpa1.jpeg',
-    'assets/images/carpa/carpa2.jpeg',
-    'assets/images/carpa/carpa3.jpeg',
-    'assets/images/carpa/carpa4.jpeg',
+    'assets/images/carpa/carpa1.png',
+    'assets/images/carpa/carpa2.png',
+    'assets/images/carpa/carpa3.png',
+    'assets/images/carpa/carpa4.png',
+    'assets/images/carpa/carpa5.png',
   ];
 
   static const List<String> _eventos = [
@@ -492,7 +493,7 @@ class _HistoriaEventosSectionState extends State<HistoriaEventosSection>
                             ]
                           : _selectedTab == 1
                           ? [
-                              (videoPath: 'assets/videos/evento_carpa_video_fadeout.mp4', previewPath: 'assets/images/carpa/carpa1.jpeg'),
+                              (videoPath: 'assets/videos/evento_carpa_video_fadeout.mp4', previewPath: 'assets/images/carpa/carpa1.png'),
                             ]
                           : null,
                     ),
