@@ -416,6 +416,9 @@ class _HistoriaEventosSectionState extends State<HistoriaEventosSection>
   ];
 
   static const List<String> _carpa = [
+    'assets/images/carpa/carpa_new1.jpg',
+    'assets/images/carpa/carpa_new2.jpg',
+    'assets/images/carpa/carpa_new3.jpg',
     'assets/images/carpa/carpa2.png',
     'assets/images/carpa/carpa3.png',
     'assets/images/carpa/carpa4.png',
