@@ -1,0 +1,103 @@
+# ============================================================
+#  robots.txt — Casona Fundo El Castillo
+#  https://www.casonaelcastillo.cl
+# ============================================================
+
+# -----------------------------------------------
+# BUSCADORES TRADICIONALES — permitir todo
+# -----------------------------------------------
+User-agent: Googlebot
+Allow: /
+
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: Baiduspider
+Allow: /
+
+User-agent: YandexBot
+Allow: /
+
+# -----------------------------------------------
+# IA DE BÚSQUEDA — permiten aparecer en respuestas
+# de ChatGPT Search, Perplexity, Google AI, etc.
+# -----------------------------------------------
+
+# ChatGPT Search (OpenAI — modo búsqueda, no entrenamiento)
+User-agent: OAI-SearchBot
+Allow: /
+
+# Google AI Overviews / Gemini (Search Generative Experience)
+User-agent: Google-Extended
+Allow: /
+
+# Perplexity AI
+User-agent: PerplexityBot
+Allow: /
+
+# Apple Intelligence / Spotlight
+User-agent: Applebot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+# Meta AI
+User-agent: FacebookBot
+Allow: /
+
+# Amazon Alexa / Bing AI
+User-agent: Amazonbot
+Allow: /
+
+# -----------------------------------------------
+# CRAWLERS DE ENTRENAMIENTO DE IA
+# Permitidos para aumentar la visibilidad
+# del negocio en modelos de lenguaje.
+# Cambia "Allow" por "Disallow" si no deseas
+# que tus contenidos se usen para entrenamiento.
+# -----------------------------------------------
+
+# OpenAI (entrenamiento de modelos)
+User-agent: GPTBot
+Allow: /
+
+# Anthropic Claude (entrenamiento de modelos)
+User-agent: ClaudeBot
+Allow: /
+
+# Common Crawl (base de datos pública usada en entrenamiento)
+User-agent: CCBot
+Allow: /
+
+# Cohere
+User-agent: cohere-ai
+Allow: /
+
+# -----------------------------------------------
+# REGLA GENERAL — permitir el resto
+# -----------------------------------------------
+User-agent: *
+Allow: /
+
+# -----------------------------------------------
+# RUTAS A EXCLUIR DE LA INDEXACIÓN
+# (archivos internos, assets sin contenido propio)
+# -----------------------------------------------
+User-agent: *
+Disallow: /assets/css/
+Disallow: /assets/js/
+
+# -----------------------------------------------
+# SITEMAP
+# -----------------------------------------------
+Sitemap: https://www.casonaelcastillo.cl/sitemap.xml
