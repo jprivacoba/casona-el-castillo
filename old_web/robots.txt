@@ -100,4 +100,4 @@ Disallow: /assets/js/
 # -----------------------------------------------
 # SITEMAP
 # -----------------------------------------------
-Sitemap: https://www.casonaelcastillo.cl/sitemap.xml
+Sitemap: https://www.casonafundoelcastillo.cl/sitemap.xml

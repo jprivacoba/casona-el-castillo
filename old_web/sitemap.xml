@@ -3,7 +3,7 @@
 
   <!-- Inicio -->
   <url>
-    <loc>https://www.casonaelcastillo.cl/</loc>
+    <loc>https://www.casonafundoelcastillo.cl/</loc>
     <lastmod>2026-03-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
@@ -11,7 +11,7 @@
 
   <!-- Quiénes Somos -->
   <url>
-    <loc>https://www.casonaelcastillo.cl/pages/quienes-somos.html</loc>
+    <loc>https://www.casonafundoelcastillo.cl/pages/quienes-somos.html</loc>
     <lastmod>2026-03-23</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.8</priority>
@@ -19,7 +19,7 @@
 
   <!-- Servicios -->
   <url>
-    <loc>https://www.casonaelcastillo.cl/pages/servicios.html</loc>
+    <loc>https://www.casonafundoelcastillo.cl/pages/servicios.html</loc>
     <lastmod>2026-03-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
@@ -27,7 +27,7 @@
 
   <!-- Menú -->
   <url>
-    <loc>https://www.casonaelcastillo.cl/pages/menu.html</loc>
+    <loc>https://www.casonafundoelcastillo.cl/pages/menu.html</loc>
     <lastmod>2026-03-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -35,7 +35,7 @@
 
   <!-- Galería -->
   <url>
-    <loc>https://www.casonaelcastillo.cl/pages/galeria.html</loc>
+    <loc>https://www.casonafundoelcastillo.cl/pages/galeria.html</loc>
     <lastmod>2026-03-23</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -43,7 +43,7 @@
 
   <!-- Ubicación -->
   <url>
-    <loc>https://www.casonaelcastillo.cl/pages/ubicacion.html</loc>
+    <loc>https://www.casonafundoelcastillo.cl/pages/ubicacion.html</loc>
     <lastmod>2026-03-23</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
@@ -51,7 +51,7 @@
 
   <!-- Contacto -->
   <url>
-    <loc>https://www.casonaelcastillo.cl/pages/contacto.html</loc>
+    <loc>https://www.casonafundoelcastillo.cl/pages/contacto.html</loc>
     <lastmod>2026-03-23</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>
