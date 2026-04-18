@@ -9,6 +9,7 @@ class GalleryScreen extends StatelessWidget {
   static const List<String> _images = [
     'assets/images/hero.jpg',
     'assets/images/quienes-somos.jpg',
+    'assets/images/tranque.jpeg',
     'assets/images/ubicacion.jpg',
     'assets/images/foto pack.jpg',
     'assets/images/img2.jpg',
