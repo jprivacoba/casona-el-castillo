@@ -148,7 +148,7 @@ class _ContactSectionState extends State<ContactSection> {
         const SizedBox(height: 16),
         _infoItem(Icons.email_outlined, 'casonaelcastillo1933@gmail.com'),
         const SizedBox(height: 16),
-        _infoItem(Icons.location_on_outlined, 'Calle Larga, Los Andes\nValparaíso, Chile'),
+        _infoItem(Icons.location_on_outlined, 'Calle Larga, Los Andes\nA 5 Minutos Casino Enjoy Santiago'),
       ],
     );
   }

@@ -277,7 +277,7 @@ class _LocationSectionState extends State<LocationSection> {
           const Divider(indent: 32, endIndent: 32, color: Color(0xFFE0D5C5)),
           const SizedBox(height: 24),
           const Text(
-            'A 50 km de Santiago.\nAcceso fácil por Ruta 60.',
+            'A 5 Minutos Casino Enjoy Santiago.',
             textAlign: TextAlign.center,
             style: TextStyle(color: AppTheme.muted, fontSize: 13, height: 1.7),
           ),
