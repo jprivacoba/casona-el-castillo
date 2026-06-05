@@ -1,9 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:video_player/video_player.dart';
 import 'theme.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   final VoidCallback? onContactTap;
   const HomeScreen({super.key, this.onContactTap});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  late VideoPlayerController _controller;
+  bool _initialized = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = VideoPlayerController.asset('assets/videos/casona_final.mp4')
+      ..setLooping(true)
+      ..setVolume(0)
+      ..initialize().then((_) {
+        if (mounted) {
+          setState(() => _initialized = true);
+          _controller.play();
+        }
+      });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -13,15 +42,25 @@ class HomeScreen extends StatelessWidget {
 
     return Stack(
       children: [
-        // Imagen hero
+        // Video hero (fallback a imagen mientras carga)
         SizedBox(
           height: heroHeight,
           width: double.infinity,
-          child: Image.asset(
-            'assets/images/hero.jpg',
-            fit: BoxFit.cover,
-            cacheWidth: 1400,
-          ),
+          child: _initialized
+              ? FittedBox(
+                  fit: BoxFit.cover,
+                  clipBehavior: Clip.hardEdge,
+                  child: SizedBox(
+                    width: _controller.value.size.width,
+                    height: _controller.value.size.height,
+                    child: VideoPlayer(_controller),
+                  ),
+                )
+              : Image.asset(
+                  'assets/images/hero.jpg',
+                  fit: BoxFit.cover,
+                  cacheWidth: 1400,
+                ),
         ),
         // Gradiente oscuro
         Container(
@@ -59,7 +98,7 @@ class HomeScreen extends StatelessWidget {
                         Container(width: isMobile ? 24 : 40, height: 1, color: AppTheme.gold),
                         const SizedBox(width: 12),
                         Text(
-                          isMobile ? 'CENTRO DE EVENTOS · CHILE' : 'CENTRO DE EVENTOS · CHILE',
+                          'CENTRO DE EVENTOS · CHILE',
                           style: TextStyle(
                             color: AppTheme.gold,
                             fontSize: isMobile ? 9 : 11,
@@ -102,7 +141,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 28),
                   OutlinedButton(
-                    onPressed: onContactTap,
+                    onPressed: widget.onContactTap,
                     style: OutlinedButton.styleFrom(
                       foregroundColor: Colors.white,
                       side: const BorderSide(color: AppTheme.gold, width: 1.5),

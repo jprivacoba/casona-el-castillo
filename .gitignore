@@ -43,3 +43,7 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Videos originales y archivos grandes (usar solo mp4 comprimidos)
+assets/videos/*.mov
+assets/videos/carpa.mp4
