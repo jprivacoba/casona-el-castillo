@@ -293,7 +293,7 @@ class _MainNavigationState extends State<MainNavigation> {
 }
 
 class _SocialIcon extends StatefulWidget {
-  final IconData faIcon;
+  final FaIconData faIcon;
   final String url;
   final bool dark; // true = footer (dark bg), false = navbar (light bg)
   const _SocialIcon({required this.faIcon, required this.url, this.dark = true});
