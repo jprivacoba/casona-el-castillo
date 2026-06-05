@@ -17,6 +17,7 @@ class _ContactSectionState extends State<ContactSection> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
+  final _phoneController = TextEditingController();
   final _messageController = TextEditingController();
   bool _isSent = false;
   bool _isLoading = false;
@@ -25,6 +26,7 @@ class _ContactSectionState extends State<ContactSection> {
   void dispose() {
     _nameController.dispose();
     _emailController.dispose();
+    _phoneController.dispose();
     _messageController.dispose();
     super.dispose();
   }
@@ -45,6 +47,7 @@ class _ContactSectionState extends State<ContactSection> {
           body: jsonEncode({
             'nombre': _nameController.text,
             '_replyto': _emailController.text,
+            'celular': _phoneController.text,
             'mensaje': _messageController.text,
           }),
         );
@@ -57,6 +60,7 @@ class _ContactSectionState extends State<ContactSection> {
         _isSent = true;
         _nameController.clear();
         _emailController.clear();
+        _phoneController.clear();
         _messageController.clear();
       });
     } catch (_) {
@@ -231,15 +235,20 @@ class _ContactSectionState extends State<ContactSection> {
           if (isMobile) ...[
             _field('Nombre', _nameController),
             const SizedBox(height: 16),
+            _field('Celular', _phoneController, isPhone: true),
+            const SizedBox(height: 16),
             _field('Correo electrónico', _emailController, isEmail: true),
-          ] else
+          ] else ...[
             Row(
               children: [
                 Expanded(child: _field('Nombre', _nameController)),
                 const SizedBox(width: 16),
-                Expanded(child: _field('Correo electrónico', _emailController, isEmail: true)),
+                Expanded(child: _field('Celular', _phoneController, isPhone: true)),
               ],
             ),
+            const SizedBox(height: 16),
+            _field('Correo electrónico', _emailController, isEmail: true),
+          ],
           const SizedBox(height: 20),
           _field('Mensaje', _messageController, isLong: true),
           const SizedBox(height: 28),
@@ -265,7 +274,7 @@ class _ContactSectionState extends State<ContactSection> {
   }
 
   Widget _field(String label, TextEditingController controller,
-      {bool isEmail = false, bool isLong = false}) {
+      {bool isEmail = false, bool isPhone = false, bool isLong = false}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -282,6 +291,7 @@ class _ContactSectionState extends State<ContactSection> {
         TextFormField(
           controller: controller,
           maxLines: isLong ? 5 : 1,
+          keyboardType: isPhone ? TextInputType.phone : (isEmail ? TextInputType.emailAddress : TextInputType.text),
           style: const TextStyle(fontSize: 14, color: AppTheme.text),
           decoration: InputDecoration(
             filled: true,
@@ -307,6 +317,10 @@ class _ContactSectionState extends State<ContactSection> {
           validator: (value) {
             if (value == null || value.isEmpty) return 'Campo requerido';
             if (isEmail && !value.contains('@')) return 'Correo inválido';
+            if (isPhone) {
+              final digits = value.replaceAll(RegExp(r'\D'), '');
+              if (digits.length < 8) return 'Ingresa un celular válido';
+            }
             return null;
           },
         ),
