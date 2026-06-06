@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:video_player/video_player.dart';
 import 'config.dart';
 import 'theme.dart';
 import 'home_screen.dart';
@@ -62,6 +63,20 @@ class _MainNavigationState extends State<MainNavigation> {
         curve: Curves.easeInOut,
       );
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) => _showVideoModal());
+  }
+
+  void _showVideoModal() {
+    showDialog(
+      context: context,
+      barrierColor: Colors.black87,
+      builder: (_) => const _VideoModal(),
+    );
   }
 
   @override
@@ -342,5 +357,115 @@ class GallerySection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const GalleryScreen();
+  }
+}
+
+class _VideoModal extends StatefulWidget {
+  const _VideoModal();
+
+  @override
+  State<_VideoModal> createState() => _VideoModalState();
+}
+
+class _VideoModalState extends State<_VideoModal> {
+  late VideoPlayerController _controller;
+  bool _initialized = false;
+  bool _muted = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = VideoPlayerController.asset('assets/videos/casona_final_con_musica.mp4')
+      ..setLooping(false)
+      ..setVolume(0)
+      ..initialize().then((_) {
+        if (mounted) {
+          setState(() => _initialized = true);
+          _controller.play();
+        }
+      });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void _toggleMute() {
+    setState(() => _muted = !_muted);
+    _controller.setVolume(_muted ? 0 : 1.0);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isMobile = screenWidth < 700;
+    final modalWidth = isMobile ? screenWidth * 0.95 : screenWidth * 0.75;
+
+    return Dialog(
+      backgroundColor: Colors.transparent,
+      insetPadding: EdgeInsets.symmetric(horizontal: isMobile ? 10 : 60, vertical: 40),
+      child: SizedBox(
+        width: modalWidth,
+        child: Stack(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: _initialized
+                  ? AspectRatio(
+                      aspectRatio: _controller.value.aspectRatio,
+                      child: VideoPlayer(_controller),
+                    )
+                  : const AspectRatio(
+                      aspectRatio: 16 / 9,
+                      child: ColoredBox(
+                        color: Colors.black,
+                        child: Center(
+                          child: CircularProgressIndicator(color: AppTheme.gold),
+                        ),
+                      ),
+                    ),
+            ),
+            // Botón silencio/sonido
+            Positioned(
+              bottom: 12,
+              left: 12,
+              child: GestureDetector(
+                onTap: _toggleMute,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.black54,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  padding: const EdgeInsets.all(8),
+                  child: Icon(
+                    _muted ? Icons.volume_off : Icons.volume_up,
+                    color: Colors.white,
+                    size: 20,
+                  ),
+                ),
+              ),
+            ),
+            // Botón cerrar
+            Positioned(
+              top: 8,
+              right: 8,
+              child: GestureDetector(
+                onTap: () => Navigator.of(context).pop(),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.black54,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  padding: const EdgeInsets.all(6),
+                  child: const Icon(Icons.close, color: Colors.white, size: 22),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
