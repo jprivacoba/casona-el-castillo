@@ -33,7 +33,7 @@ class AboutSection extends StatelessWidget {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(8),
             child: Image.asset(
-              'assets/images/quienes-somos.jpg',
+              'assets/images/pileta.jpeg',
               height: 380,
               fit: BoxFit.cover,
               cacheWidth: 700,
@@ -53,7 +53,7 @@ class AboutSection extends StatelessWidget {
         ClipRRect(
           borderRadius: BorderRadius.circular(8),
           child: Image.asset(
-            'assets/images/quienes-somos.jpg',
+            'assets/images/pileta.jpeg',
             height: 240,
             width: double.infinity,
             fit: BoxFit.cover,
