@@ -1,3 +1,4 @@
+import 'dart:math' show min;
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
@@ -416,6 +417,37 @@ class _HistoriaEventosSectionState extends State<HistoriaEventosSection>
   ];
 
   static const List<String> _carpa = [
+    'assets/images/carpa/carpa_new4.jpg',
+    'assets/images/carpa/carpa_new5.jpg',
+    'assets/images/carpa/carpa_new6.jpg',
+    'assets/images/carpa/carpa_new7.jpg',
+    'assets/images/carpa/carpa_new8.jpg',
+    'assets/images/carpa/carpa_new9.jpg',
+    'assets/images/carpa/carpa_new10.jpg',
+    'assets/images/carpa/carpa_new11.jpg',
+    'assets/images/carpa/carpa_new12.jpg',
+    'assets/images/carpa/carpa_new13.jpg',
+    'assets/images/carpa/carpa_new14.jpg',
+    'assets/images/carpa/carpa_new15.jpg',
+    'assets/images/carpa/carpa_new16.jpg',
+    'assets/images/carpa/carpa_new17.jpg',
+    'assets/images/carpa/carpa_new18.jpg',
+    'assets/images/carpa/carpa_new19.jpg',
+    'assets/images/carpa/carpa_new20.jpg',
+    'assets/images/carpa/carpa_new21.jpg',
+    'assets/images/carpa/carpa_new22.jpg',
+    'assets/images/carpa/carpa_new23.jpg',
+    'assets/images/carpa/carpa_new24.jpg',
+    'assets/images/carpa/carpa_new25.jpg',
+    'assets/images/carpa/carpa_new26.jpg',
+    'assets/images/carpa/carpa_new27.jpg',
+    'assets/images/carpa/carpa_new28.jpg',
+    'assets/images/carpa/carpa_new29.jpg',
+    'assets/images/carpa/carpa_new30.jpg',
+    'assets/images/carpa/carpa_new31.jpg',
+    'assets/images/carpa/carpa_new32.jpg',
+    'assets/images/carpa/carpa_new33.jpg',
+    'assets/images/carpa/carpa_new34.jpg',
     'assets/images/carpa/carpa_new1.jpg',
     'assets/images/carpa/carpa_new2.jpg',
     'assets/images/carpa/carpa_new3.jpg',
@@ -427,6 +459,53 @@ class _HistoriaEventosSectionState extends State<HistoriaEventosSection>
   ];
 
   static const List<String> _eventos = [
+    'assets/images/parque/parque1.jpg',
+    'assets/images/parque/parque2.jpg',
+    'assets/images/parque/parque3.jpg',
+    'assets/images/parque/parque4.jpg',
+    'assets/images/parque/parque5.jpg',
+    'assets/images/parque/parque6.jpg',
+    'assets/images/parque/parque7.jpg',
+    'assets/images/parque/parque8.jpg',
+    'assets/images/parque/parque9.jpg',
+    'assets/images/parque/parque10.jpg',
+    'assets/images/parque/parque11.jpg',
+    'assets/images/parque/parque12.jpg',
+    'assets/images/parque/parque13.jpg',
+    'assets/images/parque/parque14.jpg',
+    'assets/images/parque/parque15.jpg',
+    'assets/images/parque/parque16.jpg',
+    'assets/images/parque/parque17.jpg',
+    'assets/images/parque/parque18.jpg',
+    'assets/images/parque/parque19.jpg',
+    'assets/images/parque/parque20.jpg',
+    'assets/images/parque/parque21.jpg',
+    'assets/images/parque/parque22.jpg',
+    'assets/images/parque/parque23.jpg',
+    'assets/images/parque/parque24.jpg',
+    'assets/images/parque/parque25.jpg',
+    'assets/images/parque/parque26.jpg',
+    'assets/images/parque/parque27.jpg',
+    'assets/images/parque/parque28.jpg',
+    'assets/images/parque/parque29.jpg',
+    'assets/images/parque/parque30.jpg',
+    'assets/images/parque/parque31.jpg',
+    'assets/images/parque/parque32.jpg',
+    'assets/images/parque/parque33.jpg',
+    'assets/images/parque/parque34.jpg',
+    'assets/images/parque/parque35.jpg',
+    'assets/images/parque/parque36.jpg',
+    'assets/images/parque/parque37.jpg',
+    'assets/images/parque/parque38.jpg',
+    'assets/images/parque/parque39.jpg',
+    'assets/images/parque/parque40.jpg',
+    'assets/images/parque/parque41.jpg',
+    'assets/images/parque/parque42.jpg',
+    'assets/images/parque/parque43.jpg',
+    'assets/images/parque/parque44.jpg',
+    'assets/images/parque/parque45.jpg',
+    'assets/images/parque/parque46.jpg',
+    'assets/images/parque/parque47.jpg',
     'assets/images/imagenes/eventos/WhatsApp Image 2026-03-09 at 12.58.04.jpeg',
     'assets/images/imagenes/eventos/WhatsApp Image 2026-03-09 at 13.03.52.jpeg',
     'assets/images/imagenes/eventos/WhatsApp Image 2026-03-09 at 13.03.53 (2).jpeg',
@@ -572,7 +651,7 @@ class _HistoriaEventosSectionState extends State<HistoriaEventosSection>
 }
 
 
-class _PhotoGrid extends StatelessWidget {
+class _PhotoGrid extends StatefulWidget {
   final List<String> images;
   final bool isMobile;
   final List<({String videoPath, String previewPath})>? videos;
@@ -580,41 +659,78 @@ class _PhotoGrid extends StatelessWidget {
   const _PhotoGrid({required this.images, required this.isMobile, this.videos});
 
   @override
-  Widget build(BuildContext context) {
-    final videoCount = videos?.length ?? 0;
-    final totalCount = images.length + videoCount;
+  State<_PhotoGrid> createState() => _PhotoGridState();
+}
 
-    return GridView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: isMobile ? 2 : 3,
-        crossAxisSpacing: isMobile ? 6 : 8,
-        mainAxisSpacing: isMobile ? 6 : 8,
-        childAspectRatio: 1.1,
-      ),
-      itemCount: totalCount,
-      itemBuilder: (context, index) {
-        if (index < videoCount) {
-          final v = videos![index];
-          return _VideoTile(videoPath: v.videoPath, previewPath: v.previewPath);
-        }
-        final imgIndex = index - videoCount;
-        return GestureDetector(
-          onTap: () => _openViewer(context, imgIndex),
-          child: Hero(
-            tag: images[imgIndex],
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(6),
-              child: Image.asset(
-                images[imgIndex],
-                fit: BoxFit.cover,
-                cacheWidth: 400,
+class _PhotoGridState extends State<_PhotoGrid> {
+  bool _showAll = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final videoCount = widget.videos?.length ?? 0;
+    final cols = widget.isMobile ? 2 : 3;
+    final totalCount = widget.images.length + videoCount;
+    final visibleLimit = cols * 5;
+    final displayCount = _showAll ? totalCount : min(visibleLimit, totalCount);
+    final hasMore = !_showAll && totalCount > visibleLimit;
+
+    return Column(
+      children: [
+        GridView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: cols,
+            crossAxisSpacing: widget.isMobile ? 6 : 8,
+            mainAxisSpacing: widget.isMobile ? 6 : 8,
+            childAspectRatio: 1.1,
+          ),
+          itemCount: displayCount,
+          itemBuilder: (context, index) {
+            if (index < videoCount) {
+              final v = widget.videos![index];
+              return _VideoTile(videoPath: v.videoPath, previewPath: v.previewPath);
+            }
+            final imgIndex = index - videoCount;
+            return GestureDetector(
+              onTap: () => _openViewer(context, imgIndex),
+              child: Hero(
+                tag: widget.images[imgIndex],
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(6),
+                  child: Image.asset(
+                    widget.images[imgIndex],
+                    fit: BoxFit.cover,
+                    cacheWidth: 400,
+                  ),
+                ),
+              ),
+            );
+          },
+        ),
+        if (hasMore)
+          Padding(
+            padding: const EdgeInsets.only(top: 24),
+            child: OutlinedButton.icon(
+              onPressed: () => setState(() => _showAll = true),
+              icon: const Icon(Icons.photo_library_outlined, size: 16),
+              label: Text(
+                'VER TODAS LAS FOTOS  (${totalCount - displayCount} más)',
+                style: const TextStyle(
+                  fontSize: 12,
+                  letterSpacing: 1.4,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              style: OutlinedButton.styleFrom(
+                foregroundColor: AppTheme.dark,
+                side: const BorderSide(color: AppTheme.gold, width: 1.5),
+                padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 14),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
               ),
             ),
           ),
-        );
-      },
+      ],
     );
   }
 
@@ -622,7 +738,7 @@ class _PhotoGrid extends StatelessWidget {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (_) => _FullscreenViewer(images: images, initialIndex: initialIndex),
+        builder: (_) => _FullscreenViewer(images: widget.images, initialIndex: initialIndex),
       ),
     );
   }
