@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="es-CL">
 <head>
   <!--
     If you are serving your web app in a path other than the root, change the
@@ -18,20 +18,24 @@
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="Casona Fundo El Castillo – Centro de eventos en Los Andes, Valparaíso. Historia, naturaleza y elegancia en un parque francés centenario de más de 80 años.">
+  <meta name="description" content="Casona Fundo El Castillo – Centro de eventos y matrimonios en Los Andes, Valparaíso. Historia, naturaleza y elegancia en un parque francés centenario de más de 80 años.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://casonafundoelcastillo.cl/">
 
   <!-- Open Graph / compartir en redes sociales -->
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Casona Fundo El Castillo">
-  <meta property="og:description" content="Centro de eventos en Los Andes. Historia, naturaleza y elegancia en un parque francés centenario.">
-  <meta property="og:image" content="icons/Icon-512.png">
+  <meta property="og:site_name" content="Casona Fundo El Castillo">
+  <meta property="og:title" content="Casona Fundo El Castillo – Centro de Eventos en Los Andes">
+  <meta property="og:description" content="Centro de eventos y matrimonios en Los Andes. Historia, naturaleza y elegancia en un parque francés centenario.">
+  <meta property="og:image" content="https://casonafundoelcastillo.cl/icons/Icon-512.png">
+  <meta property="og:url" content="https://casonafundoelcastillo.cl/">
   <meta property="og:locale" content="es_CL">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Casona Fundo El Castillo">
-  <meta name="twitter:description" content="Centro de eventos en Los Andes. Historia, naturaleza y elegancia en un parque francés centenario.">
-  <meta name="twitter:image" content="icons/Icon-512.png">
+  <meta name="twitter:description" content="Centro de eventos y matrimonios en Los Andes. Historia, naturaleza y elegancia en un parque francés centenario.">
+  <meta name="twitter:image" content="https://casonafundoelcastillo.cl/icons/Icon-512.png">
 
   <!-- iOS meta tags & icons -->
   <meta name="mobile-web-app-capable" content="yes">
@@ -42,10 +46,33 @@
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png"/>
 
-  <title>Casona Fundo El Castillo</title>
+  <title>Casona Fundo El Castillo – Centro de Eventos y Matrimonios en Los Andes</title>
   <link rel="manifest" href="manifest.json">
+
+  <!-- Structured data para Google (LocalBusiness / EventVenue) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "EventVenue",
+    "name": "Casona Fundo El Castillo",
+    "description": "Centro de eventos y matrimonios en un parque francés centenario de más de 80 años, en Los Andes, Valparaíso.",
+    "url": "https://casonafundoelcastillo.cl/",
+    "image": "https://casonafundoelcastillo.cl/icons/Icon-512.png",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Los Andes",
+      "addressRegion": "Valparaíso",
+      "addressCountry": "CL"
+    }
+  }
+  </script>
 </head>
 <body>
+  <!-- Contenido de respaldo para crawlers que no ejecutan JS/CanvasKit -->
+  <noscript>
+    <h1>Casona Fundo El Castillo</h1>
+    <p>Centro de eventos y matrimonios en Los Andes, Valparaíso. Historia, naturaleza y elegancia en un parque francés centenario de más de 80 años.</p>
+  </noscript>
   <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>

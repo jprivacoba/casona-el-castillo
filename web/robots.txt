@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://casonafundoelcastillo.cl/sitemap.xml
