@@ -2,3 +2,6 @@ User-agent: *
 Allow: /
 
 Sitemap: https://casonafundoelcastillo.cl/sitemap.xml
+
+# Resumen factual del sitio para motores de búsqueda con IA:
+# https://casonafundoelcastillo.cl/llms.txt

@@ -18,16 +18,19 @@
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="Casona Fundo El Castillo – Centro de eventos y matrimonios en Los Andes, Valparaíso. Historia, naturaleza y elegancia en un parque francés centenario de más de 80 años.">
+  <meta name="description" content="Casona Fundo El Castillo – Centro de eventos y matrimonios en Calle Larga, Los Andes, Valparaíso. Parque francés centenario de más de 80 años, casona histórica restaurada y carpa para más de 300 personas.">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://casonafundoelcastillo.cl/">
 
   <!-- Open Graph / compartir en redes sociales -->
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Casona Fundo El Castillo">
-  <meta property="og:title" content="Casona Fundo El Castillo – Centro de Eventos en Los Andes">
-  <meta property="og:description" content="Centro de eventos y matrimonios en Los Andes. Historia, naturaleza y elegancia en un parque francés centenario.">
-  <meta property="og:image" content="https://casonafundoelcastillo.cl/icons/Icon-512.png">
+  <meta property="og:title" content="Casona Fundo El Castillo – Centro de Eventos y Matrimonios en Los Andes">
+  <meta property="og:description" content="Centro de eventos y matrimonios en Los Andes. Historia, naturaleza y elegancia en un parque francés centenario de más de 80 años. Más de 300 personas.">
+  <meta property="og:image" content="https://casonafundoelcastillo.cl/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Pileta de piedra rodeada de setos recortados en el parque francés centenario de Casona Fundo El Castillo, Los Andes.">
   <meta property="og:url" content="https://casonafundoelcastillo.cl/">
   <meta property="og:locale" content="es_CL">
 
@@ -35,7 +38,8 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Casona Fundo El Castillo">
   <meta name="twitter:description" content="Centro de eventos y matrimonios en Los Andes. Historia, naturaleza y elegancia en un parque francés centenario.">
-  <meta name="twitter:image" content="https://casonafundoelcastillo.cl/icons/Icon-512.png">
+  <meta name="twitter:image" content="https://casonafundoelcastillo.cl/og-image.jpg">
+  <meta name="twitter:image:alt" content="Pileta de piedra en el parque francés centenario de Casona Fundo El Castillo, Los Andes.">
 
   <!-- iOS meta tags & icons -->
   <meta name="mobile-web-app-capable" content="yes">
@@ -49,30 +53,514 @@
   <title>Casona Fundo El Castillo – Centro de Eventos y Matrimonios en Los Andes</title>
   <link rel="manifest" href="manifest.json">
 
-  <!-- Structured data para Google (LocalBusiness / EventVenue) -->
+  <style>
+    /*
+      El bloque #seo-content queda fuera de pantalla pero PRESENTE en el DOM y
+      accesible al árbol de accesibilidad. No usar display:none ni
+      visibility:hidden: eso lo haría invisible para los crawlers que evalúan
+      si el contenido estructurado está realmente en la página.
+    */
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      margin: -1px;
+      padding: 0;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      clip-path: inset(50%);
+      white-space: nowrap;
+      border: 0;
+    }
+  </style>
+
+  <!--
+    Datos estructurados (schema.org) como @graph único con @id cruzados.
+    REGLA: cada pregunta del FAQPage debe existir LITERALMENTE en el texto
+    visible del bloque #seo-content de más abajo. Si editas una, edita la otra.
+  -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "EventVenue",
-    "name": "Casona Fundo El Castillo",
-    "description": "Centro de eventos y matrimonios en un parque francés centenario de más de 80 años, en Los Andes, Valparaíso.",
-    "url": "https://casonafundoelcastillo.cl/",
-    "image": "https://casonafundoelcastillo.cl/icons/Icon-512.png",
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "Los Andes",
-      "addressRegion": "Valparaíso",
-      "addressCountry": "CL"
-    }
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://casonafundoelcastillo.cl/#organization",
+        "name": "Casona Fundo El Castillo",
+        "url": "https://casonafundoelcastillo.cl/",
+        "email": "casonaelcastillo1933@gmail.com",
+        "telephone": "+56997794301",
+        "logo": {
+          "@type": "ImageObject",
+          "@id": "https://casonafundoelcastillo.cl/#logo",
+          "url": "https://casonafundoelcastillo.cl/icons/Icon-512.png",
+          "caption": "Casona Fundo El Castillo"
+        },
+        "image": { "@id": "https://casonafundoelcastillo.cl/#primaryimage" },
+        "sameAs": [
+          "https://www.instagram.com/casonafundoelcastillo/"
+        ],
+        "areaServed": [
+          { "@type": "AdministrativeArea", "name": "Región de Valparaíso" },
+          { "@type": "AdministrativeArea", "name": "Región Metropolitana de Santiago" }
+        ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://casonafundoelcastillo.cl/#website",
+        "url": "https://casonafundoelcastillo.cl/",
+        "name": "Casona Fundo El Castillo",
+        "description": "Centro de eventos y matrimonios en un parque francés centenario de más de 80 años, en Calle Larga, Los Andes, Región de Valparaíso.",
+        "publisher": { "@id": "https://casonafundoelcastillo.cl/#organization" },
+        "inLanguage": "es-CL"
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://casonafundoelcastillo.cl/#webpage",
+        "url": "https://casonafundoelcastillo.cl/",
+        "name": "Casona Fundo El Castillo – Centro de Eventos y Matrimonios en Los Andes",
+        "description": "Centro de eventos y matrimonios en Calle Larga, Los Andes, Valparaíso. Parque francés centenario, casona histórica restaurada y carpa para más de 300 personas.",
+        "isPartOf": { "@id": "https://casonafundoelcastillo.cl/#website" },
+        "about": { "@id": "https://casonafundoelcastillo.cl/#venue" },
+        "primaryImageOfPage": { "@id": "https://casonafundoelcastillo.cl/#primaryimage" },
+        "inLanguage": "es-CL"
+      },
+      {
+        "@type": "ImageObject",
+        "@id": "https://casonafundoelcastillo.cl/#primaryimage",
+        "url": "https://casonafundoelcastillo.cl/og-image.jpg",
+        "contentUrl": "https://casonafundoelcastillo.cl/og-image.jpg",
+        "width": 1200,
+        "height": 630,
+        "caption": "Pileta de piedra rodeada de setos recortados en el parque francés centenario de Casona Fundo El Castillo, Los Andes."
+      },
+      {
+        "@type": ["EventVenue", "LocalBusiness"],
+        "@id": "https://casonafundoelcastillo.cl/#venue",
+        "name": "Casona Fundo El Castillo",
+        "alternateName": "Fundo El Castillo",
+        "description": "Centro de eventos y matrimonios en Calle Larga, Los Andes, Región de Valparaíso. Un parque diseñado por un paisajista francés con más de 80 años de historia y árboles centenarios, una casona antigua restaurada con baños modernos y una cocina de más de 300 m², y una carpa de eventos con clima controlado para más de 300 personas.",
+        "url": "https://casonafundoelcastillo.cl/",
+        "telephone": "+56997794301",
+        "email": "casonaelcastillo1933@gmail.com",
+        "image": { "@id": "https://casonafundoelcastillo.cl/#primaryimage" },
+        "photo": { "@id": "https://casonafundoelcastillo.cl/#primaryimage" },
+        "logo": { "@id": "https://casonafundoelcastillo.cl/#logo" },
+        "parentOrganization": { "@id": "https://casonafundoelcastillo.cl/#organization" },
+        "sameAs": [
+          "https://www.instagram.com/casonafundoelcastillo/"
+        ],
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Calle Larga",
+          "addressLocality": "Calle Larga",
+          "addressRegion": "Región de Valparaíso",
+          "addressCountry": "CL"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": -32.8850,
+          "longitude": -70.6494
+        },
+        "hasMap": "https://www.google.com/maps/search/?api=1&query=-32.8850,-70.6494",
+        "isAccessibleForFree": false,
+        "publicAccess": false,
+        "smokingAllowed": false,
+        "currenciesAccepted": "CLP",
+        "openingHoursSpecification": [
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": [
+              "Monday", "Tuesday", "Wednesday", "Thursday",
+              "Friday", "Saturday", "Sunday"
+            ],
+            "description": "Visitas al recinto y eventos con reserva previa. Coordina tu visita por WhatsApp al +56 9 9779 4301 o escribiendo a casonaelcastillo1933@gmail.com."
+          }
+        ],
+        "amenityFeature": [
+          {
+            "@type": "LocationFeatureSpecification",
+            "name": "Parque francés centenario de más de 80 años",
+            "value": true
+          },
+          {
+            "@type": "LocationFeatureSpecification",
+            "name": "Casona histórica restaurada",
+            "value": true
+          },
+          {
+            "@type": "LocationFeatureSpecification",
+            "name": "Cocina de más de 300 m²",
+            "value": true
+          },
+          {
+            "@type": "LocationFeatureSpecification",
+            "name": "Baños modernos",
+            "value": true
+          },
+          {
+            "@type": "LocationFeatureSpecification",
+            "name": "Carpa de eventos con clima controlado",
+            "value": true
+          },
+          {
+            "@type": "LocationFeatureSpecification",
+            "name": "Iluminación especial",
+            "value": true
+          },
+          {
+            "@type": "LocationFeatureSpecification",
+            "name": "Equipamiento completo",
+            "value": true
+          },
+          {
+            "@type": "LocationFeatureSpecification",
+            "name": "Estacionamiento privado en el recinto",
+            "value": true
+          },
+          {
+            "@type": "LocationFeatureSpecification",
+            "name": "Ceremonia civil en el lugar",
+            "value": true
+          },
+          {
+            "@type": "LocationFeatureSpecification",
+            "name": "Banquetería externa permitida",
+            "value": true
+          },
+          {
+            "@type": "LocationFeatureSpecification",
+            "name": "Acceso privado al parque",
+            "value": true
+          }
+        ],
+        "event": [
+          { "@type": "Event", "name": "Matrimonios", "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode", "location": { "@id": "https://casonafundoelcastillo.cl/#venue" } },
+          { "@type": "Event", "name": "Ceremonias íntimas o grandes", "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode", "location": { "@id": "https://casonafundoelcastillo.cl/#venue" } },
+          { "@type": "Event", "name": "Eventos corporativos, reuniones y celebraciones", "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode", "location": { "@id": "https://casonafundoelcastillo.cl/#venue" } },
+          { "@type": "Event", "name": "Fiestas y cumpleaños", "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode", "location": { "@id": "https://casonafundoelcastillo.cl/#venue" } },
+          { "@type": "Event", "name": "Sesiones de fotografía y producciones audiovisuales", "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode", "location": { "@id": "https://casonafundoelcastillo.cl/#venue" } }
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://casonafundoelcastillo.cl/#faq",
+        "isPartOf": { "@id": "https://casonafundoelcastillo.cl/#webpage" },
+        "inLanguage": "es-CL",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "¿Cuál es la capacidad máxima de invitados?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "La carpa de eventos es un espacio adaptable para más de 300 personas. El parque centenario permite distribuir la ceremonia, el cóctel y la recepción en distintos sectores del recinto."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Se puede llevar un proveedor externo de catering o banquetería?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Sí. Puedes traer tu propio proveedor de banquetería. La casona cuenta con una cocina de más de 300 m² restaurada, que queda disponible para el equipo de catering que elijas."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Hay estacionamiento para los invitados?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Sí. El recinto cuenta con estacionamiento privado dentro del terreno para los invitados, con acceso privado al parque."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Se puede realizar la ceremonia civil en el lugar?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Sí. La ceremonia civil se puede realizar en el mismo recinto, en los jardines del parque centenario, de modo que la ceremonia y la celebración ocurran en un solo lugar."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Qué pasa si llueve el día del evento?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "El evento se traslada a la carpa de eventos, que tiene clima controlado, iluminación especial y equipamiento completo para más de 300 personas. Así la celebración se realiza igual, sin depender del clima."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Cómo reservo una fecha o agendo una visita al lugar?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Escríbenos por WhatsApp al +56 9 9779 4301, al correo casonaelcastillo1933@gmail.com, o completa el formulario de contacto del sitio indicando fecha, número de invitados y el estilo de evento que imaginas. Te responderemos a la brevedad para coordinar una visita al recinto."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Dónde queda Casona Fundo El Castillo y cómo llego?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Está en Calle Larga, provincia de Los Andes, Región de Valparaíso, a 5 minutos del Casino Enjoy Santiago y a unos 75 km de Santiago, con acceso fácil en auto."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Qué tipos de evento se realizan en la Casona?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Matrimonios y ceremonias íntimas o grandes, eventos corporativos, reuniones y celebraciones, fiestas y cumpleaños, y sesiones de fotografía y producciones audiovisuales que aprovechan los escenarios del parque."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "¿Cuánto cuesta arrendar el lugar para un matrimonio?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "El valor se cotiza caso a caso según la fecha, el número de invitados y los servicios que incluyas. Escríbenos por WhatsApp al +56 9 9779 4301 o al correo casonaelcastillo1933@gmail.com y te enviamos una cotización."
+            }
+          }
+        ]
+      }
+    ]
   }
   </script>
 </head>
 <body>
-  <!-- Contenido de respaldo para crawlers que no ejecutan JS/CanvasKit -->
-  <noscript>
-    <h1>Casona Fundo El Castillo</h1>
-    <p>Centro de eventos y matrimonios en Los Andes, Valparaíso. Historia, naturaleza y elegancia en un parque francés centenario de más de 80 años.</p>
-  </noscript>
+  <!--
+    ══════════════════════════════════════════════════════════════════════════
+    ESPEJO SEO / GEO  —  NO ELIMINAR ESTE BLOQUE DEL DOM
+    ══════════════════════════════════════════════════════════════════════════
+    Flutter Web renderiza toda la UI sobre <canvas> (CanvasKit), así que el DOM
+    no contiene ningún texto real de la página: un crawler ve un documento
+    vacío. Este bloque es el único contenido semántico legible del sitio y es
+    lo que indexan Google, GPTBot, ClaudeBot, PerplexityBot y OAI-SearchBot.
+
+    Reglas al mantenerlo:
+
+    1. NO usar .remove() ni display:none sobre #seo-content. Los crawlers de IA
+       ejecutan JavaScript igual que un navegador y disparan
+       'flutter-first-frame'. Si en ese listener se elimina el nodo, el crawler
+       vuelve a indexar una página vacía y se pierde todo el trabajo de SEO.
+       Por eso abajo solo se marca aria-hidden="true" + inert: el texto sigue
+       en el DOM, deja de existir para lectores de pantalla y deja de ser
+       enfocable, que es exactamente lo que se necesita cuando la UI real de
+       Flutter ya está montada.
+
+    2. El copy de aquí debe seguir al de lib/ (sections.dart, home_screen.dart,
+       contact_screen.dart). Si cambia un texto en la app, actualízalo aquí.
+
+    3. Cada pregunta del FAQPage del JSON-LD de <head> debe aparecer LITERAL en
+       los <dt> de más abajo. Google penaliza el FAQ structured data cuyas
+       preguntas no están visibles en la página.
+    ══════════════════════════════════════════════════════════════════════════
+  -->
+  <div id="seo-content" class="visually-hidden">
+    <h1>Casona Fundo El Castillo — Centro de eventos y matrimonios en Los Andes</h1>
+    <p>
+      Historia, naturaleza y elegancia en un parque francés centenario. Casona
+      Fundo El Castillo es un centro de eventos en Calle Larga, provincia de Los
+      Andes, Región de Valparaíso, Chile, dedicado a matrimonios y celebraciones
+      en un parque de más de 80 años de historia.
+    </p>
+
+    <h2>Quiénes somos: nuestra historia</h2>
+    <p>
+      Casona Fundo El Castillo nace del sueño familiar de devolverle vida a un
+      parque con más de 80 años de historia. Diseñado por un paisajista francés
+      y rodeado de árboles centenarios, este lugar único combina patrimonio,
+      naturaleza y elegancia.
+    </p>
+    <p>
+      Nuestra antigua casona ha sido cuidadosamente restaurada, integrando
+      modernos baños y una cocina de más de 300 m², creando el escenario
+      perfecto para eventos inolvidables.
+    </p>
+
+    <h2>Capacidad de invitados</h2>
+    <p>
+      La carpa de eventos es un espacio adaptable para más de 300 personas, con
+      clima controlado, iluminación especial y equipamiento completo. El parque
+      centenario permite distribuir la ceremonia, el cóctel y la recepción en
+      distintos sectores del recinto.
+    </p>
+
+    <h2>Espacios disponibles</h2>
+
+    <h3>Parque centenario</h3>
+    <p>
+      Jardines históricos únicos en la región, de acceso privado, diseñados por
+      un paisajista francés hace más de 80 años y rodeados de árboles
+      centenarios. Perfectos para fotos y ritos al aire libre.
+    </p>
+
+    <h3>Casona histórica</h3>
+    <p>
+      Casona antigua de diseño francés, cuidadosamente restaurada, con baños
+      modernos y una cocina de más de 300 m². Ideal para ceremonias y
+      recepciones.
+    </p>
+
+    <h3>Carpa de eventos</h3>
+    <p>
+      Espacio adaptable para más de 300 personas, con clima controlado e
+      iluminación especial. Es también el respaldo del evento cuando el clima no
+      acompaña.
+    </p>
+
+    <h2>Servicios</h2>
+    <p>Producción integral con sello elegante, cálido y natural.</p>
+    <ul>
+      <li>
+        <strong>Planificación integral:</strong> wedding planner dedicado,
+        cronogramas y selección de proveedores boutique.
+      </li>
+      <li>
+        <strong>Banquetería de autor:</strong> menús personalizables con
+        productos de temporada y maridaje de viñas locales.
+      </li>
+      <li>
+        <strong>Ambientación floral:</strong> diseños botánicos con paletas
+        suaves, madera natural y textiles orgánicos.
+      </li>
+      <li>
+        <strong>Coordinación el día del evento:</strong> equipo en terreno para
+        montaje, logística y protocolo de invitados.
+      </li>
+      <li>
+        <strong>Banquetería externa permitida:</strong> puedes traer tu propio
+        proveedor de catering y usar la cocina de más de 300 m².
+      </li>
+      <li>
+        <strong>Estacionamiento privado</strong> dentro del recinto para los
+        invitados.
+      </li>
+      <li>
+        <strong>Ceremonia civil en el lugar,</strong> en los jardines del parque.
+      </li>
+    </ul>
+
+    <h2>Tipos de evento</h2>
+    <ul>
+      <li>Matrimonios</li>
+      <li>Ceremonias íntimas o grandes</li>
+      <li>Eventos corporativos, reuniones y celebraciones</li>
+      <li>Fiestas y cumpleaños</li>
+      <li>Sesiones de fotografía y producciones audiovisuales</li>
+    </ul>
+
+    <h2>Ubicación y cómo llegar</h2>
+    <p>
+      Calle Larga, Los Andes · Región de Valparaíso, Chile. A 5 minutos del
+      Casino Enjoy Santiago y a unos 75 km de Santiago, con acceso fácil en
+      auto. Coordenadas: latitud −32,8850, longitud −70,6494.
+    </p>
+
+    <h2>Galería</h2>
+    <p>
+      Espacios con historia: un recorrido visual por nuestra casona, el parque,
+      la carpa de eventos y los momentos que la hacen única.
+    </p>
+
+    <h2>Contacto: coordinemos tu evento</h2>
+    <p>
+      Escríbenos y te responderemos a la brevedad para organizar juntos el
+      evento que imaginas. Cuéntanos la fecha, el número de invitados y el
+      estilo soñado.
+    </p>
+    <ul>
+      <li>Teléfono y WhatsApp: <a href="https://wa.me/56997794301">+56 9 9779 4301</a></li>
+      <li>Correo: <a href="mailto:casonaelcastillo1933@gmail.com">casonaelcastillo1933@gmail.com</a></li>
+      <li>Instagram: <a href="https://www.instagram.com/casonafundoelcastillo/">@casonafundoelcastillo</a></li>
+      <li>Dirección: Calle Larga, Los Andes · Valparaíso, Chile</li>
+    </ul>
+
+    <h2>Preguntas frecuentes</h2>
+    <dl>
+      <dt>¿Cuál es la capacidad máxima de invitados?</dt>
+      <dd>
+        La carpa de eventos es un espacio adaptable para más de 300 personas. El
+        parque centenario permite distribuir la ceremonia, el cóctel y la
+        recepción en distintos sectores del recinto.
+      </dd>
+
+      <dt>¿Se puede llevar un proveedor externo de catering o banquetería?</dt>
+      <dd>
+        Sí. Puedes traer tu propio proveedor de banquetería. La casona cuenta
+        con una cocina de más de 300 m² restaurada, que queda disponible para el
+        equipo de catering que elijas.
+      </dd>
+
+      <dt>¿Hay estacionamiento para los invitados?</dt>
+      <dd>
+        Sí. El recinto cuenta con estacionamiento privado dentro del terreno
+        para los invitados, con acceso privado al parque.
+      </dd>
+
+      <dt>¿Se puede realizar la ceremonia civil en el lugar?</dt>
+      <dd>
+        Sí. La ceremonia civil se puede realizar en el mismo recinto, en los
+        jardines del parque centenario, de modo que la ceremonia y la
+        celebración ocurran en un solo lugar.
+      </dd>
+
+      <dt>¿Qué pasa si llueve el día del evento?</dt>
+      <dd>
+        El evento se traslada a la carpa de eventos, que tiene clima controlado,
+        iluminación especial y equipamiento completo para más de 300 personas.
+        Así la celebración se realiza igual, sin depender del clima.
+      </dd>
+
+      <dt>¿Cómo reservo una fecha o agendo una visita al lugar?</dt>
+      <dd>
+        Escríbenos por WhatsApp al +56 9 9779 4301, al correo
+        casonaelcastillo1933@gmail.com, o completa el formulario de contacto del
+        sitio indicando fecha, número de invitados y el estilo de evento que
+        imaginas. Te responderemos a la brevedad para coordinar una visita al
+        recinto.
+      </dd>
+
+      <dt>¿Dónde queda Casona Fundo El Castillo y cómo llego?</dt>
+      <dd>
+        Está en Calle Larga, provincia de Los Andes, Región de Valparaíso, a 5
+        minutos del Casino Enjoy Santiago y a unos 75 km de Santiago, con acceso
+        fácil en auto.
+      </dd>
+
+      <dt>¿Qué tipos de evento se realizan en la Casona?</dt>
+      <dd>
+        Matrimonios y ceremonias íntimas o grandes, eventos corporativos,
+        reuniones y celebraciones, fiestas y cumpleaños, y sesiones de
+        fotografía y producciones audiovisuales que aprovechan los escenarios
+        del parque.
+      </dd>
+
+      <dt>¿Cuánto cuesta arrendar el lugar para un matrimonio?</dt>
+      <dd>
+        El valor se cotiza caso a caso según la fecha, el número de invitados y
+        los servicios que incluyas. Escríbenos por WhatsApp al +56 9 9779 4301 o
+        al correo casonaelcastillo1933@gmail.com y te enviamos una cotización.
+      </dd>
+    </dl>
+  </div>
+
+  <script>
+    // Cuando Flutter ya pintó su primer frame, la UI real está en pantalla y el
+    // espejo SEO deja de ser necesario para el usuario. Se marca aria-hidden +
+    // inert para que no lo lean los lectores de pantalla ni reciba foco.
+    //
+    // NO reemplazar por seo.remove(): el nodo tiene que seguir en el DOM. Los
+    // crawlers de IA (GPTBot, ClaudeBot, PerplexityBot, OAI-SearchBot) ejecutan
+    // JS y disparan este mismo evento; si el nodo se elimina, indexan una
+    // página vacía. Ver el comentario extenso arriba de #seo-content.
+    window.addEventListener('flutter-first-frame', function () {
+      var seo = document.getElementById('seo-content');
+      if (!seo) return;
+      seo.setAttribute('aria-hidden', 'true');
+      seo.setAttribute('inert', '');
+    });
+  </script>
+
   <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>

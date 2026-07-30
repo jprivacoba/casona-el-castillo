@@ -60,7 +60,9 @@ lib/
   gallery_screen.dart
   menu_screen.dart
   contact_screen.dart
+  faq_section.dart         — preguntas frecuentes (espejo del FAQPage, ver SEO)
   sections.dart
+tool/validar_seo.py        — valida JSON-LD, espejo SEO y paridad del FAQ
 assets/                    — imágenes del lugar
 marketing/                 — materiales de marketing generados
 mobile/                    — assets específicos mobile
@@ -72,6 +74,67 @@ generar_marketing*.py      — scripts Python de generación de contenido
 
 - `config.dart` centraliza textos, URLs e imágenes — modificar ahí primero antes de tocar pantallas
 - `old_web/` es referencia histórica, no modificar
+
+---
+
+## SEO / GEO (posicionamiento en buscadores de IA)
+
+**Dominio de producción:** `casonafundoelcastillo.cl`
+
+### Limitación de base: Flutter Web = canvas
+
+Flutter Web renderiza todo en `<canvas>` vía CanvasKit, así que el DOM no contiene texto real de la app: un crawler ve un documento vacío. El flag `--web-renderer html` **fue removido en Flutter 3.29+** (confirmado en 3.44.4), no hay forma de forzar renderer HTML. La solución adoptada es el **espejo SEO** descrito abajo, no prerendering.
+
+### Reglas que NO se deben romper
+
+1. **El espejo SEO (`#seo-content` en `web/index.html`) NO se elimina del DOM.**
+   Es el único contenido semántico legible del sitio — lo que indexan Google, GPTBot, ClaudeBot, PerplexityBot y OAI-SearchBot. Cuando Flutter monta su UI, el listener de `flutter-first-frame` solo le pone `aria-hidden="true"` + `inert`.
+   **Nunca reemplazar por `.remove()` / `removeChild` / `display:none`.** Los crawlers de IA ejecutan JS y disparan ese mismo evento; si se elimina el nodo, vuelven a indexar una página vacía y se pierde todo el trabajo. El `.visually-hidden` usa `position:absolute` + `clip` justamente porque `display:none` lo haría invisible también para los crawlers.
+
+2. **El copy del espejo y de `web/llms.txt` debe seguir al de `lib/`.**
+   Si cambia un texto en `sections.dart`, `home_screen.dart` o `contact_screen.dart`, hay que actualizar el espejo en `web/index.html` **y** `web/llms.txt`. Son tres lugares que dicen lo mismo y se desincronizan solos.
+
+3. **Las preguntas del FAQ viven en TRES lugares y deben coincidir LITERALMENTE.**
+   - `lib/faq_section.dart` (`kFaqItems`) — lo que **ve el usuario** en la app
+   - `web/index.html` → JSON-LD `FAQPage` — lo que leen los motores
+   - `web/index.html` → `<dt>`/`<dd>` del espejo `#seo-content`
+
+   Google exige que las preguntas del structured data estén **visibles en la página**; por eso existe la sección FAQ en Flutter, no solo el espejo oculto. Si editas una pregunta, edítala en los tres lados y corre el validador. La coincidencia es carácter por carácter.
+
+### Validación
+
+```bash
+python3 tool/validar_seo.py                      # sobre web/index.html
+python3 tool/validar_seo.py build/web/index.html # sobre el build
+```
+
+Verifica: JSON-LD parsea, tipos requeridos presentes, `@id` referenciados existen, FAQ 1:1 contra los `<dt>` del espejo **y** contra `kFaqItems` de `lib/faq_section.dart`, y que no haya `.remove()` sobre el espejo. **Correr siempre después de tocar el copy o el JSON-LD.**
+
+### Estado (2026-07-29)
+
+- **Espejo SEO** en `web/index.html`: ~5.400 chars de texto, 1 h1 / 9 h2 / 3 h3, listas de servicios y tipos de evento, `<dl>` con 9 preguntas frecuentes. (Antes: 166 chars, cero h2.)
+- **Sección FAQ visible** en `lib/faq_section.dart`: `ExpansionTile` con las 9 preguntas, entre Ubicación y Contacto, con entrada en navbar ("FAQ") y drawer ("Preguntas Frecuentes"). Existe para que el `FAQPage` del schema refleje contenido realmente visible al usuario — no solo el espejo oculto.
+- **JSON-LD** como `@graph` único con `@id` cruzados: `Organization`, `WebSite`, `WebPage`, `ImageObject`, `EventVenue`+`LocalBusiness` (geo, 11 `amenityFeature`, teléfono, `openingHoursSpecification`, `event[]`) y `FAQPage` con 9 preguntas.
+- **`web/llms.txt`**: resumen factual denso en blockquote + secciones.
+- **og:image**: `web/og-image.jpg`, 1200×630, recorte de `assets/images/pileta.jpeg` (la pileta del parque francés), con `og:image:width/height/alt`. Antes apuntaba a `icons/Icon-512.png` (ícono cuadrado, se recortaba mal en WhatsApp).
+- **`netlify.toml`**: headers `Content-Type` con `charset=utf-8` para `.txt` y `.xml` — sin eso los acentos llegan mal decodificados a los crawlers.
+- **Sin `priceRange`** y **sin horario de término** de eventos: decisión de JP, no publicarlos. El FAQ dice que se cotiza caso a caso.
+
+### Datos factuales del lugar (fuente para el copy)
+
+Todo esto viene del código (`lib/sections.dart`, `old_web/pages/servicios.html`, `generar_marketing*.py`) o fue confirmado por JP. **No inventar cifras ni servicios fuera de esta lista** — si falta un dato, preguntar.
+
+- Parque diseñado por paisajista francés, +80 años, árboles centenarios, acceso privado
+- Casona antigua restaurada: baños modernos, cocina de +300 m²
+- Carpa de eventos: más de **300 personas**, clima controlado, iluminación especial, equipamiento completo
+- Ubicación: Calle Larga, Los Andes, Región de Valparaíso · lat −32,8850 lon −70,6494 · a 5 min del Casino Enjoy Santiago · ~75 km de Santiago
+- Contacto: +56 9 9779 4301 (WhatsApp) · casonaelcastillo1933@gmail.com · @casonafundoelcastillo
+- Confirmado por JP (2026-07-29): catering externo **permitido**, estacionamiento privado **sí**, ceremonia civil en el lugar **sí**, plan de lluvia = **carpa**
+- Servicios (de `old_web/pages/servicios.html`): planificación integral, banquetería de autor, ambientación floral, coordinación día del evento
+
+### Pendiente de decidir
+
+Páginas por intención de búsqueda ("matrimonios en Los Andes", "centro de eventos Valparaíso") — propuesta hecha, JP decide antes de crear rutas.
 
 ---
 

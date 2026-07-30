@@ -9,6 +9,7 @@ import 'home_screen.dart';
 import 'gallery_screen.dart';
 import 'menu_screen.dart';
 import 'contact_screen.dart';
+import 'faq_section.dart';
 import 'sections.dart';
 
 
@@ -53,6 +54,7 @@ class _MainNavigationState extends State<MainNavigation> {
   final GlobalKey _galleryKey = GlobalKey();
   final GlobalKey _menuKey = GlobalKey();
   final GlobalKey _locationKey = GlobalKey();
+  final GlobalKey _faqKey = GlobalKey();
   final GlobalKey _contactKey = GlobalKey();
 
   void _scrollToSection(GlobalKey key) {
@@ -128,6 +130,7 @@ class _MainNavigationState extends State<MainNavigation> {
                       _navItem('Historia y Eventos', _historiaEventosKey),
                       _navItem('Ubicación', _locationKey),
                       if (AppConfig.showMenu) _navItem('Menú', _menuKey),
+                      _navItem('FAQ', _faqKey),
                       _navItem('Contacto', _contactKey),
                       const SizedBox(width: 8),
                       _SocialIcon(
@@ -160,6 +163,7 @@ class _MainNavigationState extends State<MainNavigation> {
             HistoriaEventosSection(key: _historiaEventosKey),
             LocationSection(key: _locationKey),
             if (AppConfig.showMenu) MenuScreen(key: _menuKey),
+            FaqSection(key: _faqKey),
             ContactSection(key: _contactKey),
             _buildFooter(),
           ],
@@ -187,6 +191,7 @@ class _MainNavigationState extends State<MainNavigation> {
             _drawerItem(context, 'Historia y Eventos', _historiaEventosKey),
             _drawerItem(context, 'Ubicación', _locationKey),
             if (AppConfig.showMenu) _drawerItem(context, 'Menú', _menuKey),
+            _drawerItem(context, 'Preguntas Frecuentes', _faqKey),
             _drawerItem(context, 'Contacto', _contactKey),
             const SizedBox(height: 16),
             const Divider(color: Color(0xFFE8DDD0), height: 1),
