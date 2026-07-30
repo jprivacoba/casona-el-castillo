@@ -183,9 +183,78 @@ def main() -> int:
         for q in sobran_en_ui:
             print(f"{BAD} visible en la app pero NO en el JSON-LD: {q}")
             errors.append("faq-app-sin-schema")
+
+        # Las RESPUESTAS también deben coincidir: una respuesta desactualizada
+        # en un solo lado (p.ej. capacidad vieja) es exactamente el tipo de
+        # desfase que este validador existe para atrapar.
+        respuestas_schema = {
+            norm(q["name"]): norm(q["acceptedAnswer"]["text"])
+            for n in faq_nodes
+            for q in n.get("mainEntity", [])
+            if "name" in q and "acceptedAnswer" in q
+        }
+        # En Dart las respuestas son literales adyacentes concatenados
+        bloques = re.findall(
+            r"pregunta:\s*'((?:[^'\\]|\\.)*)'\s*,\s*respuesta:\s*((?:'(?:[^'\\]|\\.)*'\s*)+)",
+            dart_src,
+        )
+        desfases = 0
+        for preg, resp_raw in bloques:
+            partes = re.findall(r"'((?:[^'\\]|\\.)*)'", resp_raw)
+            resp = norm("".join(partes))
+            esperada = respuestas_schema.get(norm(preg))
+            if esperada is not None and resp != esperada:
+                print(f"{BAD} respuesta distinta entre app y JSON-LD: «{preg}»")
+                print(f"     app:     {resp[:110]}...")
+                print(f"     JSON-LD: {esperada[:110]}...")
+                errors.append("faq-respuesta-desfasada")
+                desfases += 1
+        if not desfases and bloques:
+            print(f"{OK} las {len(bloques)} respuestas coinciden entre app y JSON-LD")
     else:
         print(f"\n{BAD} no existe lib/faq_section.dart — el FAQ del schema no sería visible al usuario")
         errors.append("sin-faq-section")
+
+    # ── 3c. Coherencia de la capacidad declarada ──────────────────────────────
+    # La capacidad se repite en muchos lugares (meta description, og, JSON-LD,
+    # espejo, FAQ, llms.txt, Dart). Un cambio parcial deja el sitio diciendo dos
+    # cifras distintas, que es peor que no declararla.
+    print("\n── Capacidad declarada ──")
+    venues = [n for n in nodes if "EventVenue" in types_of(n)]
+    cap = venues[0].get("maximumAttendeeCapacity") if venues else None
+    if cap is None:
+        print(f"{BAD} falta maximumAttendeeCapacity en el nodo EventVenue")
+        errors.append("sin-capacidad-schema")
+    else:
+        print(f"{OK} maximumAttendeeCapacity = {cap}")
+
+    archivos_capacidad = {
+        "web/index.html": src,
+        "web/llms.txt": (ROOT / "web" / "llms.txt").read_text(encoding="utf-8")
+        if (ROOT / "web" / "llms.txt").exists()
+        else "",
+        "lib/faq_section.dart": (ROOT / "lib" / "faq_section.dart").read_text(encoding="utf-8")
+        if (ROOT / "lib" / "faq_section.dart").exists()
+        else "",
+    }
+    # Busca "N personas" ignorando "300 m²" (la cocina) y similares
+    cifras = {}
+    for nombre, contenido in archivos_capacidad.items():
+        halladas = set(re.findall(r"(\d{2,4})\s*personas", contenido))
+        if halladas:
+            cifras[nombre] = halladas
+    todas = set().union(*cifras.values()) if cifras else set()
+    if len(todas) > 1:
+        print(f"{BAD} cifras de capacidad inconsistentes entre archivos: {sorted(todas)}")
+        for nombre, halladas in cifras.items():
+            print(f"     {nombre}: {sorted(halladas)}")
+        errors.append("capacidad-inconsistente")
+    elif todas:
+        unica = todas.pop()
+        print(f"{OK} todos los archivos dicen «{unica} personas»")
+        if cap is not None and str(cap) != unica:
+            print(f"{BAD} el texto dice {unica} pero maximumAttendeeCapacity es {cap}")
+            errors.append("capacidad-schema-vs-texto")
 
     # ── 4. Salud del espejo ───────────────────────────────────────────────────
     print("\n── Espejo SEO ──")

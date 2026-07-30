@@ -108,13 +108,15 @@ python3 tool/validar_seo.py                      # sobre web/index.html
 python3 tool/validar_seo.py build/web/index.html # sobre el build
 ```
 
-Verifica: JSON-LD parsea, tipos requeridos presentes, `@id` referenciados existen, FAQ 1:1 contra los `<dt>` del espejo **y** contra `kFaqItems` de `lib/faq_section.dart`, y que no haya `.remove()` sobre el espejo. **Correr siempre después de tocar el copy o el JSON-LD.**
+Verifica: JSON-LD parsea, tipos requeridos presentes, `@id` referenciados existen, FAQ 1:1 contra los `<dt>` del espejo **y** contra `kFaqItems` de `lib/faq_section.dart` (preguntas **y** respuestas), coherencia de la cifra de capacidad entre `index.html` / `llms.txt` / `faq_section.dart` / `maximumAttendeeCapacity`, y que no haya `.remove()` sobre el espejo. **Correr siempre después de tocar el copy o el JSON-LD.**
+
+La capacidad se repite en ~15 lugares: cambiarla a mano en unos pocos deja el sitio diciendo dos cifras distintas. El validador atrapa exactamente eso (pasó con el cambio 200 → 300, que perdió `maximumAttendeeCapacity`).
 
 ### Estado (2026-07-29)
 
 - **Espejo SEO** en `web/index.html`: ~5.400 chars de texto, 1 h1 / 9 h2 / 3 h3, listas de servicios y tipos de evento, `<dl>` con 9 preguntas frecuentes. (Antes: 166 chars, cero h2.)
 - **Sección FAQ visible** en `lib/faq_section.dart`: `ExpansionTile` con las 9 preguntas, entre Ubicación y Contacto, con entrada en navbar ("FAQ") y drawer ("Preguntas Frecuentes"). Existe para que el `FAQPage` del schema refleje contenido realmente visible al usuario — no solo el espejo oculto.
-- **JSON-LD** como `@graph` único con `@id` cruzados: `Organization`, `WebSite`, `WebPage`, `ImageObject`, `EventVenue`+`LocalBusiness` (geo, 11 `amenityFeature`, teléfono, `openingHoursSpecification`, `event[]`) y `FAQPage` con 9 preguntas.
+- **JSON-LD** como `@graph` único con `@id` cruzados: `Organization`, `WebSite`, `WebPage`, `ImageObject`, `EventVenue`+`LocalBusiness` (geo, `maximumAttendeeCapacity: 300`, 12 `amenityFeature`, teléfono, `openingHoursSpecification`, `event[]`) y `FAQPage` con 9 preguntas.
 - **`web/llms.txt`**: resumen factual denso en blockquote + secciones.
 - **og:image**: `web/og-image.jpg`, 1200×630, recorte de `assets/images/pileta.jpeg` (la pileta del parque francés), con `og:image:width/height/alt`. Antes apuntaba a `icons/Icon-512.png` (ícono cuadrado, se recortaba mal en WhatsApp).
 - **`netlify.toml`**: headers `Content-Type` con `charset=utf-8` para `.txt` y `.xml` — sin eso los acentos llegan mal decodificados a los crawlers.
