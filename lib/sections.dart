@@ -266,7 +266,7 @@ class _LocationSectionState extends State<LocationSection> {
           const Icon(Icons.location_on, size: 40, color: AppTheme.gold),
           const SizedBox(height: 16),
           const Text(
-            'Calle Larga, Los Andes',
+            'Calle Larga',
             style: TextStyle(
               fontSize: 20,
               fontFamily: 'Playfair Display',
