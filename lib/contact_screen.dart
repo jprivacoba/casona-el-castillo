@@ -14,12 +14,23 @@ class ContactSection extends StatefulWidget {
   State<ContactSection> createState() => _ContactSectionState();
 }
 
+const List<String> _kTiposEvento = [
+  'Matrimonio / ceremonia',
+  'Evento corporativo',
+  'Cumpleaños / celebración',
+  'Sesión de fotos o producción audiovisual',
+  'Otro',
+];
+
 class _ContactSectionState extends State<ContactSection> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _phoneController = TextEditingController();
   final _messageController = TextEditingController();
+  final _dateController = TextEditingController();
+  final _guestsController = TextEditingController();
+  String? _tipoEvento;
   bool _isSent = false;
   bool _isLoading = false;
 
@@ -29,7 +40,26 @@ class _ContactSectionState extends State<ContactSection> {
     _emailController.dispose();
     _phoneController.dispose();
     _messageController.dispose();
+    _dateController.dispose();
+    _guestsController.dispose();
     super.dispose();
+  }
+
+  Future<void> _pickDate() async {
+    final now = DateTime.now();
+    final picked = await showDatePicker(
+      context: context,
+      initialDate: now,
+      firstDate: now,
+      lastDate: DateTime(now.year + 3),
+      helpText: 'Fecha aproximada del evento',
+    );
+    if (picked != null) {
+      setState(() {
+        _dateController.text = '${picked.day.toString().padLeft(2, '0')}-'
+            '${picked.month.toString().padLeft(2, '0')}-${picked.year}';
+      });
+    }
   }
 
   Future<void> _submitForm() async {
@@ -49,6 +79,9 @@ class _ContactSectionState extends State<ContactSection> {
             'nombre': _nameController.text,
             '_replyto': _emailController.text,
             'celular': _phoneController.text,
+            'tipo_evento': _tipoEvento ?? '',
+            'fecha_aproximada': _dateController.text,
+            'numero_invitados': _guestsController.text,
             'mensaje': _messageController.text,
           }),
         );
@@ -64,6 +97,9 @@ class _ContactSectionState extends State<ContactSection> {
         _emailController.clear();
         _phoneController.clear();
         _messageController.clear();
+        _dateController.clear();
+        _guestsController.clear();
+        _tipoEvento = null;
       });
     } catch (_) {
       if (mounted) {
@@ -240,6 +276,12 @@ class _ContactSectionState extends State<ContactSection> {
             _field('Celular', _phoneController, isPhone: true),
             const SizedBox(height: 16),
             _field('Correo electrónico', _emailController, isEmail: true),
+            const SizedBox(height: 16),
+            _tipoEventoField(),
+            const SizedBox(height: 16),
+            _dateField(),
+            const SizedBox(height: 16),
+            _field('N° de invitados (aprox.)', _guestsController, isNumber: true, required: false),
           ] else ...[
             Row(
               children: [
@@ -250,6 +292,16 @@ class _ContactSectionState extends State<ContactSection> {
             ),
             const SizedBox(height: 16),
             _field('Correo electrónico', _emailController, isEmail: true),
+            const SizedBox(height: 16),
+            Row(
+              children: [
+                Expanded(flex: 2, child: _tipoEventoField()),
+                const SizedBox(width: 16),
+                Expanded(child: _dateField()),
+                const SizedBox(width: 16),
+                Expanded(child: _field('N° de invitados (aprox.)', _guestsController, isNumber: true, required: false)),
+              ],
+            ),
           ],
           const SizedBox(height: 20),
           _field('Mensaje', _messageController, isLong: true),
@@ -275,54 +327,109 @@ class _ContactSectionState extends State<ContactSection> {
     );
   }
 
-  Widget _field(String label, TextEditingController controller,
-      {bool isEmail = false, bool isPhone = false, bool isLong = false}) {
+  InputDecoration _fieldDecoration() {
+    return InputDecoration(
+      filled: true,
+      fillColor: AppTheme.cream,
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(4),
+        borderSide: const BorderSide(color: Color(0xFFE0D5C5)),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(4),
+        borderSide: const BorderSide(color: Color(0xFFE0D5C5)),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(4),
+        borderSide: const BorderSide(color: AppTheme.gold, width: 1.5),
+      ),
+      errorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(4),
+        borderSide: const BorderSide(color: Colors.redAccent),
+      ),
+    );
+  }
+
+  Widget _fieldLabel(String label) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8),
+      child: Text(
+        label.toUpperCase(),
+        style: const TextStyle(
+          fontSize: 10,
+          letterSpacing: 1.5,
+          fontWeight: FontWeight.w700,
+          color: AppTheme.muted,
+        ),
+      ),
+    );
+  }
+
+  Widget _tipoEventoField() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          label.toUpperCase(),
-          style: const TextStyle(
-            fontSize: 10,
-            letterSpacing: 1.5,
-            fontWeight: FontWeight.w700,
-            color: AppTheme.muted,
+        _fieldLabel('Tipo de evento'),
+        DropdownButtonFormField<String>(
+          initialValue: _tipoEvento,
+          isExpanded: true,
+          style: const TextStyle(fontSize: 14, color: AppTheme.text),
+          decoration: _fieldDecoration(),
+          hint: const Text('Selecciona', style: TextStyle(fontSize: 14, color: AppTheme.muted)),
+          items: _kTiposEvento
+              .map((tipo) => DropdownMenuItem(value: tipo, child: Text(tipo, overflow: TextOverflow.ellipsis)))
+              .toList(),
+          onChanged: (value) => setState(() => _tipoEvento = value),
+        ),
+      ],
+    );
+  }
+
+  Widget _dateField() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _fieldLabel('Fecha aproximada'),
+        TextFormField(
+          controller: _dateController,
+          readOnly: true,
+          onTap: _pickDate,
+          style: const TextStyle(fontSize: 14, color: AppTheme.text),
+          decoration: _fieldDecoration().copyWith(
+            hintText: 'Elegir fecha',
+            hintStyle: const TextStyle(fontSize: 14, color: AppTheme.muted),
+            suffixIcon: const Icon(Icons.calendar_today_outlined, size: 18, color: AppTheme.muted),
           ),
         ),
-        const SizedBox(height: 8),
+      ],
+    );
+  }
+
+  Widget _field(String label, TextEditingController controller,
+      {bool isEmail = false, bool isPhone = false, bool isLong = false, bool isNumber = false, bool required = true}) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _fieldLabel(label),
         TextFormField(
           controller: controller,
           maxLines: isLong ? 5 : 1,
-          keyboardType: isPhone ? TextInputType.phone : (isEmail ? TextInputType.emailAddress : TextInputType.text),
+          keyboardType: isPhone
+              ? TextInputType.phone
+              : (isNumber ? TextInputType.number : (isEmail ? TextInputType.emailAddress : TextInputType.text)),
           style: const TextStyle(fontSize: 14, color: AppTheme.text),
-          decoration: InputDecoration(
-            filled: true,
-            fillColor: AppTheme.cream,
-            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(4),
-              borderSide: const BorderSide(color: Color(0xFFE0D5C5)),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(4),
-              borderSide: const BorderSide(color: Color(0xFFE0D5C5)),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(4),
-              borderSide: const BorderSide(color: AppTheme.gold, width: 1.5),
-            ),
-            errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(4),
-              borderSide: const BorderSide(color: Colors.redAccent),
-            ),
-          ),
+          decoration: _fieldDecoration(),
           validator: (value) {
-            if (value == null || value.isEmpty) return 'Campo requerido';
+            if (value == null || value.isEmpty) {
+              return required ? 'Campo requerido' : null;
+            }
             if (isEmail && !value.contains('@')) return 'Correo inválido';
             if (isPhone) {
               final digits = value.replaceAll(RegExp(r'\D'), '');
               if (digits.length < 8) return 'Ingresa un celular válido';
             }
+            if (isNumber && int.tryParse(value) == null) return 'Ingresa solo números';
             return null;
           },
         ),
