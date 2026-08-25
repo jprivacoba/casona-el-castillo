@@ -140,9 +140,17 @@ Todo esto viene del código (`lib/sections.dart`, `old_web/pages/servicios.html`
 - Confirmado por JP (2026-07-29): catering externo **permitido**, estacionamiento privado **sí**, ceremonia civil en el lugar **sí**, plan de lluvia = **carpa**
 - Servicios (de `old_web/pages/servicios.html`): planificación integral, banquetería de autor, ambientación floral, coordinación día del evento
 
-### Pendiente de decidir
+### Landing pages por intención de búsqueda
 
-Páginas por intención de búsqueda ("matrimonios en Los Andes", "centro de eventos Valparaíso") — propuesta hecha, JP decide antes de crear rutas.
+Hechas (2026-08-24): 3 páginas estáticas HTML independientes de la app Flutter (evitan el problema de CanvasKit — no son rutas de la SPA), en `web/<slug>/index.html`, copiadas tal cual al build por `flutter build web`:
+
+- `web/matrimonios-los-andes/index.html`
+- `web/centro-de-eventos-los-andes/index.html`
+- `web/eventos-corporativos-los-andes/index.html`
+
+Cada una: título/meta description propios, contenido real distinto (no copia del home, para evitar que Google las trate como doorway pages), imágenes reales del sitio sin repetir el mismo hero entre páginas, JSON-LD liviano (`WebPage` + `BreadcrumbList`, sin duplicar todo el schema del home), CTA a WhatsApp y al `#contacto` del sitio principal. Agregadas a `web/sitemap.xml` y enlazadas desde el footer de la app (`lib/main.dart` → `_buildFooter`) para que no queden huérfanas.
+
+**Para agregar una nueva página de este tipo:** copiar el patrón de una existente (mismo `<head>`/CSS/paleta), cambiar título/meta/JSON-LD/contenido/imágenes, agregar a `sitemap.xml` y a la lista de `_footerLink(...)` en `main.dart`.
 
 ---
 
