@@ -14,7 +14,13 @@ import 'faq_section.dart';
 import 'sections.dart';
 
 
+// Se captura antes de runApp() porque el Router interno de MaterialApp
+// reescribe el hash de la URL (a "#/") apenas se construye el árbol de
+// widgets — si se lee Uri.base.fragment después, ya se perdió.
+String? _initialFragment;
+
 void main() {
+  _initialFragment = Uri.base.fragment.isEmpty ? null : Uri.base.fragment;
   runApp(const CasonaApp());
 }
 
@@ -67,6 +73,27 @@ class _MainNavigationState extends State<MainNavigation> {
         curve: Curves.easeInOut,
       );
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToFragment());
+  }
+
+  void _scrollToFragment() {
+    final key = switch (_initialFragment) {
+      'inicio' => _homeKey,
+      'nosotros' => _aboutKey,
+      'galeria' => _galleryKey,
+      'historia' => _historiaEventosKey,
+      'ubicacion' => _locationKey,
+      'menu' => _menuKey,
+      'faq' => _faqKey,
+      'contacto' => _contactKey,
+      _ => null,
+    };
+    if (key != null) _scrollToSection(key);
   }
 
   void _showVideoModal() {
