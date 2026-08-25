@@ -301,12 +301,50 @@ class _MainNavigationState extends State<MainNavigation> {
             ],
           ),
           const SizedBox(height: 28),
+          Wrap(
+            alignment: WrapAlignment.center,
+            spacing: 16,
+            runSpacing: 8,
+            children: [
+              _footerLink('Matrimonios en Los Andes', 'https://casonafundoelcastillo.cl/matrimonios-los-andes/'),
+              _footerLink('Centro de eventos en Los Andes', 'https://casonafundoelcastillo.cl/centro-de-eventos-los-andes/'),
+              _footerLink('Eventos corporativos en Los Andes', 'https://casonafundoelcastillo.cl/eventos-corporativos-los-andes/'),
+            ],
+          ),
+          const SizedBox(height: 20),
           const Text(
             '© 2026 Casona Fundo El Castillo · Todos los derechos reservados',
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 11, color: Color(0xFF6A6058)),
           ),
+          const SizedBox(height: 10),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text(
+                'Hecho con ❤️ por ',
+                style: TextStyle(fontSize: 11, color: Color(0xFF6A6058)),
+              ),
+              GestureDetector(
+                onTap: () => launchUrl(Uri.parse('https://www.mapcloud.cl'), mode: LaunchMode.externalApplication),
+                child: const Text(
+                  'MapCloud',
+                  style: TextStyle(fontSize: 11, color: Color(0xFFBBB3AA), decoration: TextDecoration.underline),
+                ),
+              ),
+            ],
+          ),
         ],
+      ),
+    );
+  }
+
+  Widget _footerLink(String label, String url) {
+    return GestureDetector(
+      onTap: () => launchUrl(Uri.parse(url), webOnlyWindowName: '_self'),
+      child: Text(
+        label,
+        style: const TextStyle(fontSize: 12, color: Color(0xFFBBB3AA), decoration: TextDecoration.underline),
       ),
     );
   }
