@@ -9,6 +9,12 @@
 
 ---
 
+## Preferencias de trabajo
+
+- Al terminar un cambio de UI, levantar el servidor de dev (`flutter run -d web-server` o similar) y avisar la URL — **no** manejar el navegador con Playwright/MCP para hacer clic o tomar screenshots. JP prefiere verificar visualmente él mismo. Usar Playwright en este proyecto solo si JP lo pide explícitamente.
+
+---
+
 ## Descripción del proyecto
 
 App Flutter para "Casona El Castillo" — hotel/restaurante/lugar turístico. App de presentación con galería, menú, contacto e información del lugar. Incluye scripts Python para generación de contenido de marketing.
@@ -137,6 +143,18 @@ Todo esto viene del código (`lib/sections.dart`, `old_web/pages/servicios.html`
 ### Pendiente de decidir
 
 Páginas por intención de búsqueda ("matrimonios en Los Andes", "centro de eventos Valparaíso") — propuesta hecha, JP decide antes de crear rutas.
+
+---
+
+## Analytics (GA4)
+
+- **Measurement ID:** `G-FQHVYMVDFJ`. Snippet gtag.js instalado en `web/index.html` (dentro de `<head>`, antes del bloque `<style>`).
+- **Objetivo configurado en GA4:** generación de oportunidades de venta (+ tráfico web).
+- **`lib/analytics.dart`**: export condicional (`analytics_web.dart` con `dart:js_interop` llamando a `window.gtag` en web, `analytics_stub.dart` no-op en mobile) — la app también compila a iOS/Android, por eso el stub.
+- **Eventos custom:**
+  - `generate_lead` — al enviar con éxito el formulario de contacto (`lib/contact_screen.dart`)
+  - `contact_click` con parámetro `channel: whatsapp|instagram` — al hacer clic en los íconos sociales (`_SocialIcon` en `lib/main.dart`, usado en nav/drawer/footer)
+- Para agregar un nuevo evento: `import 'analytics.dart'; trackEvent('nombre_evento', {'param': valor});`
 
 ---
 

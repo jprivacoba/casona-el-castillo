@@ -4,7 +4,8 @@ import 'theme.dart';
 
 class HomeScreen extends StatefulWidget {
   final VoidCallback? onContactTap;
-  const HomeScreen({super.key, this.onContactTap});
+  final VoidCallback? onVideoTap;
+  const HomeScreen({super.key, this.onContactTap, this.onVideoTap});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -140,27 +141,53 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   const SizedBox(height: 28),
-                  OutlinedButton(
-                    onPressed: widget.onContactTap,
-                    style: OutlinedButton.styleFrom(
-                      foregroundColor: Colors.white,
-                      side: const BorderSide(color: AppTheme.gold, width: 1.5),
-                      padding: EdgeInsets.symmetric(
-                        horizontal: isMobile ? 24 : 36,
-                        vertical: 14,
+                  Wrap(
+                    alignment: WrapAlignment.center,
+                    spacing: 16,
+                    runSpacing: 12,
+                    children: [
+                      OutlinedButton(
+                        onPressed: widget.onContactTap,
+                        style: OutlinedButton.styleFrom(
+                          foregroundColor: Colors.white,
+                          side: const BorderSide(color: AppTheme.gold, width: 1.5),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: isMobile ? 24 : 36,
+                            vertical: 14,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                        ),
+                        child: Text(
+                          'SOLICITAR INFORMACIÓN',
+                          style: TextStyle(
+                            fontSize: isMobile ? 11 : 12,
+                            letterSpacing: 2,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                       ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(4),
+                      TextButton.icon(
+                        onPressed: widget.onVideoTap,
+                        style: TextButton.styleFrom(
+                          foregroundColor: Colors.white,
+                          padding: EdgeInsets.symmetric(
+                            horizontal: isMobile ? 20 : 28,
+                            vertical: 14,
+                          ),
+                        ),
+                        icon: const Icon(Icons.play_circle_outline, color: AppTheme.gold, size: 20),
+                        label: Text(
+                          'VER VIDEO',
+                          style: TextStyle(
+                            fontSize: isMobile ? 11 : 12,
+                            letterSpacing: 2,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                       ),
-                    ),
-                    child: Text(
-                      'SOLICITAR INFORMACIÓN',
-                      style: TextStyle(
-                        fontSize: isMobile ? 11 : 12,
-                        letterSpacing: 2,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
+                    ],
                   ),
                 ],
               ),

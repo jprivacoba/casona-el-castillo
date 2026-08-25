@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'analytics.dart';
 import 'theme.dart';
 
 // Reemplaza con tu ID de Formspree: https://formspree.io → New form → copia el ID
@@ -56,6 +57,7 @@ class _ContactSectionState extends State<ContactSection> {
         }
       }
 
+      trackEvent('generate_lead');
       setState(() {
         _isSent = true;
         _nameController.clear();

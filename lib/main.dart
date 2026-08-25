@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
+import 'analytics.dart';
 import 'config.dart';
 import 'theme.dart';
 import 'home_screen.dart';
@@ -66,12 +67,6 @@ class _MainNavigationState extends State<MainNavigation> {
         curve: Curves.easeInOut,
       );
     }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => _showVideoModal());
   }
 
   void _showVideoModal() {
@@ -157,7 +152,11 @@ class _MainNavigationState extends State<MainNavigation> {
         physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
         child: Column(
           children: [
-            HomeScreen(key: _homeKey, onContactTap: () => _scrollToSection(_contactKey)),
+            HomeScreen(
+              key: _homeKey,
+              onContactTap: () => _scrollToSection(_contactKey),
+              onVideoTap: _showVideoModal,
+            ),
             AboutSection(key: _aboutKey),
             GallerySection(key: _galleryKey),
             HistoriaEventosSection(key: _historiaEventosKey),
@@ -335,7 +334,12 @@ class _SocialIconState extends State<_SocialIcon> {
       onExit: (_) => setState(() => _hovered = false),
       cursor: SystemMouseCursors.click,
       child: GestureDetector(
-        onTap: () => launchUrl(Uri.parse(widget.url), mode: LaunchMode.externalApplication),
+        onTap: () {
+          trackEvent('contact_click', {
+            'channel': widget.url.contains('wa.me') ? 'whatsapp' : 'instagram',
+          });
+          launchUrl(Uri.parse(widget.url), mode: LaunchMode.externalApplication);
+        },
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 150),
           padding: const EdgeInsets.all(8),

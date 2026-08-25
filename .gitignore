@@ -47,3 +47,6 @@ app.*.map.json
 # Videos originales y archivos grandes (usar solo mp4 comprimidos)
 assets/videos/*.mov
 assets/videos/carpa.mp4
+
+# Playwright MCP local artifacts
+.playwright-mcp/
