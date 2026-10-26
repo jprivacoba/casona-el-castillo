@@ -33,6 +33,13 @@
   [headers.values]
     Content-Type = "application/xml; charset=utf-8"
 
+# Encuesta privada de novios: solo accesible por URL enviada, fuera de buscadores.
+[[headers]]
+  for = "/encuesta-novios/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow, noarchive"
+    Referrer-Policy = "no-referrer"
+
 [[headers]]
   for = "/index.html"
   [headers.values]

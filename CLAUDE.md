@@ -154,6 +154,18 @@ Cada una: título/meta description propios, contenido real distinto (no copia de
 
 ---
 
+## Encuesta de satisfacción de novios (privada)
+
+`web/encuesta-novios/index.html` (2026-10-26): página estática, mismo patrón que las landing pages pero **privada** — solo se accede por la URL que se envía a los novios (`https://casonafundoelcastillo.cl/encuesta-novios/`).
+
+- **No indexable:** `<meta robots noindex,nofollow,noarchive>` + header `X-Robots-Tag` en `netlify.toml`. **No** va en `sitemap.xml`, **no** se enlaza desde el footer/`main.dart`, y **no** se agrega a `robots.txt` (un `Disallow` delataría la URL). No contar GA4 aquí.
+- **Envío:** `fetch` JSON al mismo Formspree del formulario de contacto (`xyknkdqo`), así que las respuestas llegan al correo de contacto con `formulario: encuesta_novios` y `_subject` con la fecha del matrimonio. En `localhost` no envía (solo `console.log`), igual que `contact_screen.dart`. Honeypot `_gotcha`.
+- **Preguntas:** las 12 del documento original + sección "Sobre su matrimonio", filas extra en instalaciones (carpa, cocina) y atención (día del evento, proveedores), "cómo nos conocieron", "volverían a elegirnos" y permiso de testimonio/contacto. Las claves del correo llevan prefijo numérico (`01 · …`) para que se lean en orden.
+- **Probar local:** el dev server de Flutter cae al SPA en `/encuesta-novios/`; usar `/encuesta-novios/index.html`.
+- Para otra encuesta (otro evento), reutilizar la página y cambiar el copy; el cuerpo del correo se arma solo desde los `data-key`.
+
+---
+
 ## Analytics (GA4)
 
 - **Measurement ID:** `G-FQHVYMVDFJ`. Snippet gtag.js instalado en `web/index.html` (dentro de `<head>`, antes del bloque `<style>`).

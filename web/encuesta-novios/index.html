@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="es-CL">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Encuesta de satisfacción | Casona Fundo El Castillo</title>
+  <!-- Página privada: se comparte solo por URL. Sin índice, sin sitemap, sin enlaces desde el sitio. -->
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+  <meta name="referrer" content="no-referrer">
+
+  <link rel="icon" type="image/png" href="/favicon.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --cream: #FAF7F3;
+      --cream-alt: #F3EBE0;
+      --gold: #B8935A;
+      --gold-light: #D4B483;
+      --gold-dark: #9A7840;
+      --dark: #1E1710;
+      --text: #2A2118;
+      --muted: #8A8077;
+      --line: #E8DDD0;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--cream);
+      color: var(--text);
+      font-family: 'Source Sans 3', system-ui, sans-serif;
+      line-height: 1.6;
+    }
+    h1, h2, h3 {
+      font-family: 'Playfair Display', Georgia, serif;
+      color: var(--dark);
+      margin: 0;
+    }
+    a { color: var(--gold); }
+    .wrap { max-width: 760px; margin: 0 auto; padding: 0 20px; }
+
+    header { padding: 18px 0; border-bottom: 1px solid var(--line); background: var(--cream); }
+    header .wrap { display: flex; align-items: center; justify-content: center; }
+    header .home {
+      font-family: 'Playfair Display', serif; font-weight: 700; font-size: 20px;
+      color: var(--dark); text-decoration: none; text-align: center;
+    }
+
+    .hero {
+      position: relative;
+      min-height: 340px;
+      background: url('/assets/assets/images/parque/parque7.jpg') center/cover;
+      display: flex;
+      align-items: flex-end;
+    }
+    .hero::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, rgba(0,0,0,.2), rgba(0,0,0,.78));
+    }
+    .hero-content { position: relative; z-index: 1; padding: 40px 20px; color: #fff; max-width: 760px; margin: 0 auto; width: 100%; }
+    .kicker { color: var(--gold-light); letter-spacing: 2.5px; font-size: 12px; font-weight: 700; text-transform: uppercase; }
+    .hero h1 { color: #fff; font-size: clamp(28px, 6vw, 44px); margin-top: 10px; line-height: 1.15; }
+
+    .intro { padding: 40px 0 8px; text-align: center; }
+    .intro p { margin: 0 0 12px; font-size: 17px; }
+    .intro .lead { font-family: 'Playfair Display', serif; font-size: 22px; color: var(--dark); }
+    .time-badge {
+      display: inline-block; margin-top: 8px; padding: 6px 16px;
+      border: 1px solid var(--gold-light); border-radius: 999px;
+      color: var(--gold-dark); font-size: 14px; font-weight: 600;
+    }
+    .divider { width: 56px; height: 2px; background: var(--gold); margin: 28px auto 0; border: 0; }
+
+    form { padding: 28px 0 64px; }
+    .card {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 28px;
+      margin-bottom: 20px;
+    }
+    .card h2 { font-size: 22px; line-height: 1.3; margin-bottom: 4px; display: flex; gap: 14px; align-items: baseline; }
+    .card h2 .n {
+      flex: none; color: var(--gold); font-size: 15px; font-weight: 700;
+      letter-spacing: 1px; font-family: 'Source Sans 3', sans-serif;
+    }
+    .card .q { font-size: 17px; font-weight: 600; margin: 14px 0 6px; }
+    .card .q:first-of-type { margin-top: 12px; }
+    .card .hint { color: var(--muted); font-size: 14px; margin: 0 0 14px; }
+    .req { color: var(--gold-dark); }
+
+    fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
+    legend { padding: 0; }
+
+    /* Opciones de selección (radio / checkbox) */
+    .opts { display: grid; gap: 8px; margin-top: 12px; }
+    .opt { position: relative; display: block; cursor: pointer; }
+    .opt input[type="radio"], .opt input[type="checkbox"], .pill input {
+      position: absolute; opacity: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; inset: 0;
+    }
+    .opt span {
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px 16px; border: 1.5px solid var(--line); border-radius: 6px;
+      background: var(--cream); transition: border-color .15s, background .15s;
+    }
+    .opt span::before {
+      content: ''; flex: none; width: 18px; height: 18px;
+      border: 1.5px solid var(--gold-light); background: #fff; border-radius: 50%;
+      transition: all .15s;
+    }
+    .opt.check span::before { border-radius: 4px; }
+    .opt:hover span { border-color: var(--gold-light); }
+    .opt input:checked + span { border-color: var(--gold); background: #FBF4E8; }
+    .opt input:checked + span::before {
+      background: var(--gold); border-color: var(--gold);
+      box-shadow: inset 0 0 0 3px #fff;
+    }
+    .opt.check input:checked + span::before {
+      box-shadow: none;
+      background: var(--gold) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 8.5l3 3 6-7' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/14px no-repeat;
+    }
+    .opt input:focus-visible + span, .pill input:focus-visible + span { outline: 2px solid var(--gold); outline-offset: 2px; }
+    .opt .otro-text {
+      flex: 1; min-width: 0; border: 0; border-bottom: 1px solid var(--gold-light);
+      background: transparent; padding: 2px 4px; font: inherit; color: var(--text);
+    }
+    .opt .otro-text:focus { outline: none; border-bottom-color: var(--gold-dark); }
+
+    /* Escalas 1-5 y 0-10 */
+    .rate { padding: 14px 0; border-top: 1px solid var(--line); }
+    .rate:first-of-type { border-top: 0; }
+    .rate legend { font-weight: 600; margin-bottom: 8px; float: left; width: 100%; }
+    .scale { display: flex; gap: 8px; flex-wrap: wrap; clear: both; }
+    .pill { position: relative; flex: 1 1 0; min-width: 44px; cursor: pointer; }
+    .pill span {
+      display: flex; align-items: center; justify-content: center;
+      height: 44px; border: 1.5px solid var(--line); border-radius: 6px;
+      background: var(--cream); font-weight: 600; transition: all .15s;
+    }
+    .pill:hover span { border-color: var(--gold-light); }
+    .pill input:checked + span { background: var(--gold); border-color: var(--gold); color: #fff; }
+    .scale-ends { display: flex; justify-content: space-between; color: var(--muted); font-size: 13px; margin-top: 6px; }
+    .nps .scale { display: grid; grid-template-columns: repeat(11, 1fr); gap: 6px; }
+    .nps .pill { min-width: 0; }
+
+    textarea, input[type="text"], input[type="date"], input[type="number"] {
+      width: 100%; font: inherit; color: var(--text);
+      border: 1.5px solid var(--line); border-radius: 6px;
+      padding: 12px 14px; background: var(--cream);
+    }
+    textarea { min-height: 110px; resize: vertical; }
+    textarea:focus, input[type="text"]:focus, input[type="date"]:focus, input[type="number"]:focus {
+      outline: none; border-color: var(--gold); background: #fff;
+    }
+    .field { margin-top: 14px; }
+    .field label { display: block; font-weight: 600; margin-bottom: 6px; }
+    .field label small { font-weight: 400; color: var(--muted); }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .trap { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+    .submit-row { text-align: center; padding-top: 12px; }
+    button[type="submit"] {
+      background: var(--gold); color: #fff; border: 0; border-radius: 4px;
+      padding: 16px 44px; font: inherit; font-weight: 600; letter-spacing: .5px;
+      font-size: 16px; cursor: pointer; transition: background .15s;
+    }
+    button[type="submit"]:hover { background: var(--gold-dark); }
+    button[type="submit"]:disabled { opacity: .6; cursor: wait; }
+    .status { margin-top: 16px; color: #9B2C2C; font-size: 15px; min-height: 1.4em; }
+
+    .thanks {
+      background: var(--dark); color: #fff; border-radius: 8px;
+      padding: 56px 28px; text-align: center; margin: 40px 0 64px;
+    }
+    .thanks h2 { color: #fff; font-size: 30px; margin-bottom: 16px; }
+    .thanks p { color: rgba(255,255,255,.82); max-width: 520px; margin: 0 auto 14px; }
+    .thanks .sign { font-family: 'Playfair Display', serif; color: var(--gold-light); font-size: 20px; margin-top: 24px; }
+
+    footer { border-top: 1px solid var(--line); padding: 28px 0; text-align: center; color: var(--muted); font-size: 13px; }
+    footer a { color: var(--muted); }
+
+    @media (max-width: 560px) {
+      .card { padding: 22px 18px; }
+      .card h2 { font-size: 20px; }
+      .grid-2 { grid-template-columns: 1fr; }
+      .nps .scale { grid-template-columns: repeat(6, 1fr); }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap"><a class="home" href="https://casonafundoelcastillo.cl/">Casona Fundo El Castillo</a></div>
+  </header>
+
+  <div class="hero">
+    <div class="hero-content">
+      <div class="kicker">Casona Fundo El Castillo</div>
+      <h1>Encuesta de satisfacción de novios</h1>
+    </div>
+  </div>
+
+  <main class="wrap">
+    <div class="intro">
+      <p class="lead">Queridos novios:</p>
+      <p>Muchas gracias por elegir Casona Fundo El Castillo para celebrar uno de los días más importantes de sus vidas.</p>
+      <p>Nos encantaría conocer su experiencia con nuestro recinto, nuestras instalaciones y la atención de nuestro equipo. Sus respuestas son muy importantes para nosotros, ya que nos permiten identificar oportunidades de mejora y seguir entregando una experiencia especial a cada pareja.</p>
+      <span class="time-badge">Toma aproximadamente 4 a 5 minutos</span>
+      <hr class="divider">
+    </div>
+
+    <form id="encuesta" novalidate>
+      <p class="trap" aria-hidden="true"><label>No completar <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label></p>
+
+      <!-- Sobre su matrimonio -->
+      <section class="card">
+        <h2>Sobre su matrimonio</h2>
+        <div class="field">
+          <label for="fecha">Fecha del matrimonio <span class="req">*</span></label>
+          <input type="date" id="fecha" data-key="00 · Fecha del matrimonio" required>
+        </div>
+        <div class="field">
+          <label for="novios">Nombres de los novios <small>(opcional)</small></label>
+          <input type="text" id="novios" data-key="00 · Novios" autocomplete="off" maxlength="120">
+        </div>
+        <div class="field">
+          <label for="invitados">¿Cuántos invitados asistieron, aproximadamente? <small>(opcional)</small></label>
+          <input type="number" id="invitados" data-key="00 · Invitados aproximados" min="1" max="1000" inputmode="numeric">
+        </div>
+        <fieldset data-key="00 · Ceremonia en el recinto">
+          <p class="q">¿Realizaron la ceremonia en nuestro recinto?</p>
+          <div class="opts">
+            <label class="opt"><input type="radio" name="ceremonia" value="Sí, ceremonia civil en el recinto"><span>Sí, ceremonia civil en el recinto</span></label>
+            <label class="opt"><input type="radio" name="ceremonia" value="Sí, ceremonia religiosa o simbólica en el recinto"><span>Sí, ceremonia religiosa o simbólica en el recinto</span></label>
+            <label class="opt"><input type="radio" name="ceremonia" value="No, la ceremonia fue en otro lugar"><span>No, la ceremonia fue en otro lugar</span></label>
+          </div>
+        </fieldset>
+      </section>
+
+      <!-- 1 -->
+      <section class="card">
+        <h2><span class="n">01</span>Experiencia general</h2>
+        <fieldset data-key="01 · Experiencia general">
+          <legend class="q">¿Cómo evaluarían su experiencia general en Casona Fundo El Castillo? <span class="req">*</span></legend>
+          <div class="opts">
+            <label class="opt"><input type="radio" name="q1" value="Excelente" required><span>Excelente</span></label>
+            <label class="opt"><input type="radio" name="q1" value="Muy buena"><span>Muy buena</span></label>
+            <label class="opt"><input type="radio" name="q1" value="Buena"><span>Buena</span></label>
+            <label class="opt"><input type="radio" name="q1" value="Regular"><span>Regular</span></label>
+            <label class="opt"><input type="radio" name="q1" value="Mala"><span>Mala</span></label>
+          </div>
+        </fieldset>
+      </section>
+
+      <!-- 2 -->
+      <section class="card">
+        <h2><span class="n">02</span>Cumplimiento de expectativas</h2>
+        <fieldset data-key="02 · Cumplimiento de expectativas">
+          <legend class="q">¿En qué medida nuestras instalaciones cumplieron con sus expectativas?</legend>
+          <div class="opts">
+            <label class="opt"><input type="radio" name="q2" value="Superaron nuestras expectativas"><span>Superaron nuestras expectativas</span></label>
+            <label class="opt"><input type="radio" name="q2" value="Cumplieron completamente"><span>Cumplieron completamente</span></label>
+            <label class="opt"><input type="radio" name="q2" value="Cumplieron parcialmente"><span>Cumplieron parcialmente</span></label>
+            <label class="opt"><input type="radio" name="q2" value="No cumplieron nuestras expectativas"><span>No cumplieron nuestras expectativas</span></label>
+          </div>
+        </fieldset>
+      </section>
+
+      <!-- 3 -->
+      <section class="card">
+        <h2><span class="n">03</span>Aspectos más valorados</h2>
+        <fieldset data-key="03 · Aspectos más valorados">
+          <legend class="q">¿Qué aspectos del recinto valoraron más?</legend>
+          <p class="hint">Pueden marcar varias opciones.</p>
+          <div class="opts">
+            <label class="opt check"><input type="checkbox" value="Jardines y áreas verdes"><span>Jardines y áreas verdes</span></label>
+            <label class="opt check"><input type="checkbox" value="Arquitectura y estilo de la casona"><span>Arquitectura y estilo de la casona</span></label>
+            <label class="opt check"><input type="checkbox" value="Espacios para la ceremonia"><span>Espacios para la ceremonia</span></label>
+            <label class="opt check"><input type="checkbox" value="Salón y espacios de celebración"><span>Salón y espacios de celebración</span></label>
+            <label class="opt check"><input type="checkbox" value="Entorno y privacidad"><span>Entorno y privacidad</span></label>
+            <label class="opt check"><input type="checkbox" value="Ubicación y accesibilidad"><span>Ubicación y accesibilidad</span></label>
+            <label class="opt check"><input type="checkbox" value="Otro" data-otro-box><span>Otro: <input type="text" class="otro-text" data-otro maxlength="120" aria-label="Otro aspecto valorado"></span></label>
+          </div>
+        </fieldset>
+      </section>
+
+      <!-- 4 -->
+      <section class="card">
+        <h2><span class="n">04</span>Evaluación de las instalaciones</h2>
+        <p class="q">¿Cómo evaluarían los siguientes aspectos de nuestras instalaciones?</p>
+        <p class="hint">Escala de 1 a 5, donde 1 es <em>Muy malo</em> y 5 es <em>Excelente</em>.</p>
+        <div data-grid="04 · Instalaciones" data-ends="Muy malo|Excelente" data-aspects='[
+          "Jardines y áreas exteriores",
+          "Salones y espacios interiores",
+          "Carpa de eventos (comodidad, clima e iluminación)",
+          "Cocina y apoyo para el catering",
+          "Baños y limpieza",
+          "Iluminación exterior",
+          "Estacionamientos y accesos",
+          "Comodidad y distribución de espacios"
+        ]'></div>
+      </section>
+
+      <!-- 5 -->
+      <section class="card">
+        <h2><span class="n">05</span>Atención de nuestro equipo</h2>
+        <p class="q">¿Cómo evaluarían la atención recibida por parte de nuestro equipo?</p>
+        <p class="hint">Escala de 1 a 5, donde 1 es <em>Muy mala</em> y 5 es <em>Excelente</em>.</p>
+        <div data-grid="05 · Atención" data-ends="Muy mala|Excelente" data-aspects='[
+          "Amabilidad y disposición",
+          "Rapidez de respuesta",
+          "Claridad de la información",
+          "Facilidad para coordinar visitas y consultas",
+          "Apoyo durante el día del matrimonio",
+          "Flexibilidad para trabajar con sus proveedores",
+          "Atención ante solicitudes o inconvenientes"
+        ]'></div>
+      </section>
+
+      <!-- 6 -->
+      <section class="card">
+        <h2><span class="n">06</span>Funcionamiento del recinto</h2>
+        <fieldset data-key="06 · Inconvenientes en el recinto">
+          <legend class="q">¿Se presentó algún inconveniente relacionado con las instalaciones durante el matrimonio?</legend>
+          <div class="opts">
+            <label class="opt"><input type="radio" name="q6" value="No, todo funcionó correctamente"><span>No, todo funcionó correctamente.</span></label>
+            <label class="opt"><input type="radio" name="q6" value="Sí, pero fue solucionado oportunamente"><span>Sí, pero fue solucionado oportunamente.</span></label>
+            <label class="opt"><input type="radio" name="q6" value="Sí, y considero que podría haberse gestionado mejor"><span>Sí, y considero que podría haberse gestionado mejor.</span></label>
+          </div>
+        </fieldset>
+        <div class="field">
+          <label for="q6c">Si desean, pueden comentar lo ocurrido</label>
+          <textarea id="q6c" data-key="06 · Comentario sobre el inconveniente" maxlength="2000"></textarea>
+        </div>
+      </section>
+
+      <!-- 7 -->
+      <section class="card">
+        <h2><span class="n">07</span>Oportunidades de mejora</h2>
+        <div class="field" style="margin-top:12px">
+          <label for="q7">¿Qué aspecto de las instalaciones consideran que deberíamos mejorar?</label>
+          <textarea id="q7" data-key="07 · Aspectos a mejorar" maxlength="2000"></textarea>
+        </div>
+      </section>
+
+      <!-- 8 -->
+      <section class="card">
+        <h2><span class="n">08</span>Lo que más les gustó</h2>
+        <div class="field" style="margin-top:12px">
+          <label for="q8">¿Qué fue lo que más les gustó de celebrar su matrimonio en nuestra casona?</label>
+          <textarea id="q8" data-key="08 · Lo que más les gustó" maxlength="2000"></textarea>
+        </div>
+      </section>
+
+      <!-- 9 -->
+      <section class="card">
+        <h2><span class="n">09</span>Relación precio-calidad</h2>
+        <fieldset data-key="09 · Relación precio-calidad">
+          <legend class="q">¿Consideran que el valor del arriendo fue adecuado en relación con las instalaciones y la experiencia ofrecida?</legend>
+          <div class="opts">
+            <label class="opt"><input type="radio" name="q9" value="Muy adecuado"><span>Muy adecuado</span></label>
+            <label class="opt"><input type="radio" name="q9" value="Adecuado"><span>Adecuado</span></label>
+            <label class="opt"><input type="radio" name="q9" value="Poco adecuado"><span>Poco adecuado</span></label>
+            <label class="opt"><input type="radio" name="q9" value="Nada adecuado"><span>Nada adecuado</span></label>
+          </div>
+        </fieldset>
+      </section>
+
+      <!-- 10 -->
+      <section class="card">
+        <h2><span class="n">10</span>Motivo de elección</h2>
+        <fieldset data-key="10 · Motivo de elección">
+          <legend class="q">¿Qué fue lo que más influyó en su decisión de elegir Casona Fundo El Castillo?</legend>
+          <div class="opts">
+            <label class="opt"><input type="radio" name="q10" value="Belleza y entorno natural"><span>Belleza y entorno natural</span></label>
+            <label class="opt"><input type="radio" name="q10" value="Arquitectura de la casona"><span>Arquitectura de la casona</span></label>
+            <label class="opt"><input type="radio" name="q10" value="Ubicación"><span>Ubicación</span></label>
+            <label class="opt"><input type="radio" name="q10" value="Amplitud y distribución de los espacios"><span>Amplitud y distribución de los espacios</span></label>
+            <label class="opt"><input type="radio" name="q10" value="Relación precio-calidad"><span>Relación precio-calidad</span></label>
+            <label class="opt"><input type="radio" name="q10" value="Recomendación de conocidos"><span>Recomendación de conocidos</span></label>
+            <label class="opt"><input type="radio" name="q10" value="Otro" data-otro-box><span>Otro: <input type="text" class="otro-text" data-otro maxlength="120" aria-label="Otro motivo de elección"></span></label>
+          </div>
+        </fieldset>
+      </section>
+
+      <!-- 11 (nueva) -->
+      <section class="card">
+        <h2><span class="n">11</span>¿Cómo nos conocieron?</h2>
+        <fieldset data-key="11 · Cómo conocieron la casona">
+          <legend class="q">¿Cómo conocieron Casona Fundo El Castillo?</legend>
+          <div class="opts">
+            <label class="opt"><input type="radio" name="q11" value="Instagram"><span>Instagram</span></label>
+            <label class="opt"><input type="radio" name="q11" value="Búsqueda en Google"><span>Búsqueda en Google</span></label>
+            <label class="opt"><input type="radio" name="q11" value="Sitio web"><span>Sitio web</span></label>
+            <label class="opt"><input type="radio" name="q11" value="Recomendación de familiares o amigos"><span>Recomendación de familiares o amigos</span></label>
+            <label class="opt"><input type="radio" name="q11" value="Asistí a un evento en la casona"><span>Asistí a un evento en la casona</span></label>
+            <label class="opt"><input type="radio" name="q11" value="Otro" data-otro-box><span>Otro: <input type="text" class="otro-text" data-otro maxlength="120" aria-label="Otra forma de conocernos"></span></label>
+          </div>
+        </fieldset>
+      </section>
+
+      <!-- 12: NPS -->
+      <section class="card nps">
+        <h2><span class="n">12</span>Recomendación</h2>
+        <fieldset class="rate" data-key="12 · Probabilidad de recomendar (0-10)" data-suffix=" de 10">
+          <legend class="q">En una escala de 0 a 10, ¿qué tan probable es que recomienden Casona Fundo El Castillo a otras parejas? <span class="req">*</span></legend>
+          <p class="hint">0 significa <em>Nada probable</em> y 10 significa <em>Muy probable</em>. Marquen una sola opción.</p>
+          <div class="scale" id="nps"></div>
+          <div class="scale-ends"><span>Nada probable</span><span>Muy probable</span></div>
+        </fieldset>
+        <fieldset data-key="12 · Celebrarían otro evento" style="margin-top:20px">
+          <legend class="q">¿Volverían a elegirnos para otra celebración (aniversario, cumpleaños, bautizo, etc.)?</legend>
+          <div class="opts">
+            <label class="opt"><input type="radio" name="q12b" value="Sí"><span>Sí</span></label>
+            <label class="opt"><input type="radio" name="q12b" value="Tal vez"><span>Tal vez</span></label>
+            <label class="opt"><input type="radio" name="q12b" value="No"><span>No</span></label>
+          </div>
+        </fieldset>
+      </section>
+
+      <!-- 13 -->
+      <section class="card">
+        <h2><span class="n">13</span>Comentarios y sugerencias finales</h2>
+        <div class="field" style="margin-top:12px">
+          <label for="q13">¿Qué sugerencia nos darían para mejorar la experiencia de futuros novios en Casona Fundo El Castillo?</label>
+          <textarea id="q13" data-key="13 · Sugerencias finales" maxlength="3000" style="min-height:150px"></textarea>
+        </div>
+        <fieldset data-key="13 · Autorización para usar comentarios como testimonio" style="margin-top:22px">
+          <legend class="q">¿Podemos compartir sus comentarios positivos como testimonio?</legend>
+          <div class="opts">
+            <label class="opt"><input type="radio" name="q13t" value="Sí, con nuestros nombres"><span>Sí, con nuestros nombres</span></label>
+            <label class="opt"><input type="radio" name="q13t" value="Sí, de forma anónima"><span>Sí, de forma anónima</span></label>
+            <label class="opt"><input type="radio" name="q13t" value="No"><span>No, prefieren mantenerlos privados</span></label>
+          </div>
+        </fieldset>
+        <div class="field">
+          <label for="contacto">Si desean que los contactemos para conversar sus comentarios, déjennos un correo o teléfono <small>(opcional)</small></label>
+          <input type="text" id="contacto" data-key="13 · Contacto de los novios" autocomplete="off" maxlength="120">
+        </div>
+      </section>
+
+      <div class="submit-row">
+        <button type="submit" id="enviar">Enviar encuesta</button>
+        <p class="status" id="status" role="alert" aria-live="polite"></p>
+      </div>
+    </form>
+
+    <div class="thanks" id="gracias" hidden>
+      <h2>¡Muchas gracias por su tiempo y confianza!</h2>
+      <p>En Casona Fundo El Castillo valoramos profundamente que nos hayan elegido para ser parte de un momento tan especial de sus vidas. Sus comentarios nos ayudan a seguir mejorando nuestras instalaciones y la experiencia que ofrecemos a cada pareja.</p>
+      <p class="sign">Casona Fundo El Castillo</p>
+    </div>
+  </main>
+
+  <footer>
+    <div class="wrap">© Casona Fundo El Castillo · <a href="https://casonafundoelcastillo.cl/">casonafundoelcastillo.cl</a></div>
+  </footer>
+
+  <script>
+    (function () {
+      var FORMSPREE_ID = 'xyknkdqo'; // mismo formulario que el de contacto: llega al correo de contacto
+      var form = document.getElementById('encuesta');
+      var statusEl = document.getElementById('status');
+      var btn = document.getElementById('enviar');
+
+      function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;'); }
+
+      // Escalas 1-5 generadas desde data-aspects
+      document.querySelectorAll('[data-grid]').forEach(function (grid, g) {
+        var aspects = JSON.parse(grid.getAttribute('data-aspects'));
+        var ends = grid.getAttribute('data-ends').split('|');
+        grid.innerHTML = aspects.map(function (a, i) {
+          var pills = [1, 2, 3, 4, 5].map(function (v) {
+            return '<label class="pill"><input type="radio" name="g' + g + '_' + i + '" value="' + v + '"><span>' + v + '</span></label>';
+          }).join('');
+          return '<fieldset class="rate" data-key="' + esc(grid.getAttribute('data-grid') + ' · ' + a) + '" data-suffix=" de 5">' +
+            '<legend>' + esc(a) + '</legend><div class="scale">' + pills + '</div>' +
+            '<div class="scale-ends"><span>' + esc(ends[0]) + '</span><span>' + esc(ends[1]) + '</span></div></fieldset>';
+        }).join('');
+      });
+
+      // NPS 0-10
+      var nps = document.getElementById('nps');
+      for (var i = 0; i <= 10; i++) {
+        nps.insertAdjacentHTML('beforeend',
+          '<label class="pill"><input type="radio" name="nps" value="' + i + '"' + (i === 0 ? ' required' : '') + '><span>' + i + '</span></label>');
+      }
+
+      // Al escribir en "Otro", se marca su casilla/opción
+      form.querySelectorAll('[data-otro]').forEach(function (t) {
+        t.addEventListener('input', function () {
+          var box = t.closest('.opt').querySelector('[data-otro-box]');
+          if (t.value && box) box.checked = true;
+        });
+        t.addEventListener('click', function (e) { e.stopPropagation(); });
+      });
+
+      function collect() {
+        var data = {};
+        form.querySelectorAll('[data-key]').forEach(function (el) {
+          var key = el.getAttribute('data-key'), val = '';
+          if (el.tagName === 'FIELDSET') {
+            var vals = Array.prototype.map.call(
+              el.querySelectorAll('input[type=radio]:checked, input[type=checkbox]:checked'),
+              function (i) { return i.value; });
+            var otro = el.querySelector('[data-otro]');
+            if (otro && otro.value.trim()) {
+              vals = vals.filter(function (v) { return v !== 'Otro'; });
+              vals.push('Otro: ' + otro.value.trim());
+            }
+            if (vals.length) val = vals.join(', ') + (el.getAttribute('data-suffix') || '');
+          } else {
+            val = el.value.trim();
+          }
+          if (val) data[key] = val;
+        });
+        return data;
+      }
+
+      function showError(msg) { statusEl.textContent = msg; }
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        showError('');
+        if (!form.checkValidity()) { form.reportValidity(); return; }
+        if (form.elements['_gotcha'].value) { done(); return; } // bot
+
+        var answers = collect();
+        var contacto = answers['13 · Contacto de los novios'] || '';
+        var payload = Object.assign({
+          formulario: 'encuesta_novios',
+          _subject: 'Encuesta de satisfacción · matrimonio ' + answers['00 · Fecha del matrimonio'] +
+            (answers['00 · Novios'] ? ' · ' + answers['00 · Novios'] : '')
+        }, answers);
+        if (contacto.indexOf('@') > 0) payload._replyto = contacto;
+
+        var isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+        btn.disabled = true; btn.textContent = 'Enviando…';
+
+        var send = isLocal
+          ? (console.log('[encuesta] (localhost, no se envía)', payload), Promise.resolve({ ok: true }))
+          : fetch('https://formspree.io/f/' + FORMSPREE_ID, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+              body: JSON.stringify(payload)
+            });
+
+        send.then(function (r) {
+          if (!r.ok) throw new Error('Status ' + r.status);
+          done();
+        }).catch(function () {
+          btn.disabled = false; btn.textContent = 'Enviar encuesta';
+          showError('No pudimos enviar la encuesta. Intenten de nuevo o escríbannos a casonaelcastillo1933@gmail.com.');
+        });
+      });
+
+      function done() {
+        form.hidden = true;
+        var t = document.getElementById('gracias');
+        t.hidden = false;
+        t.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    })();
+  </script>
+</body>
+</html>
