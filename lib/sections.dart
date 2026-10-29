@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'dart:math' show min;
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
@@ -176,8 +177,9 @@ class _LocationSectionState extends State<LocationSection> {
         ? InteractiveFlag.pinchZoom |
           InteractiveFlag.pinchMove |
           InteractiveFlag.doubleTapZoom
-        : InteractiveFlag.scrollWheelZoom |
-          InteractiveFlag.pinchZoom |
+        // Sin scrollWheelZoom: la rueda sobre el mapa hacía zoom en vez de
+        // mover la página. El zoom en desktop va por _ZoomButtons.
+        : InteractiveFlag.pinchZoom |
           InteractiveFlag.drag |
           InteractiveFlag.doubleTapZoom;
 
@@ -919,19 +921,24 @@ class _FullscreenViewerState extends State<_FullscreenViewer> {
       ),
       body: Stack(
         children: [
-          PhotoViewGallery.builder(
-            scrollPhysics: const ClampingScrollPhysics(),
-            builder: (context, index) => PhotoViewGalleryPageOptions(
-              imageProvider: AssetImage(widget.images[index]),
-              initialScale: PhotoViewComputedScale.contained,
-              heroAttributes: PhotoViewHeroAttributes(tag: widget.images[index]),
+          ScrollConfiguration(
+            behavior: ScrollConfiguration.of(context).copyWith(
+              dragDevices: {...ScrollConfiguration.of(context).dragDevices, PointerDeviceKind.mouse},
             ),
-            itemCount: widget.images.length,
-            loadingBuilder: (context, event) => const Center(
-              child: CircularProgressIndicator(color: Colors.white38),
+            child: PhotoViewGallery.builder(
+              scrollPhysics: const ClampingScrollPhysics(),
+              builder: (context, index) => PhotoViewGalleryPageOptions(
+                imageProvider: AssetImage(widget.images[index]),
+                initialScale: PhotoViewComputedScale.contained,
+                heroAttributes: PhotoViewHeroAttributes(tag: widget.images[index]),
+              ),
+              itemCount: widget.images.length,
+              loadingBuilder: (context, event) => const Center(
+                child: CircularProgressIndicator(color: Colors.white38),
+              ),
+              pageController: _pageController,
+              onPageChanged: (index) => setState(() => _current = index),
             ),
-            pageController: _pageController,
-            onPageChanged: (index) => setState(() => _current = index),
           ),
           if (_current > 0)
             Positioned(

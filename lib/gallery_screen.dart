@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
@@ -236,21 +237,26 @@ class _GalleryViewerState extends State<_GalleryViewer> {
       ),
       body: Stack(
         children: [
-          PhotoViewGallery.builder(
-            scrollPhysics: const ClampingScrollPhysics(),
-            builder: (BuildContext context, int index) {
-              return PhotoViewGalleryPageOptions(
-                imageProvider: AssetImage(widget.images[index]),
-                initialScale: PhotoViewComputedScale.contained,
-                heroAttributes: PhotoViewHeroAttributes(tag: widget.images[index]),
-              );
-            },
-            itemCount: widget.images.length,
-            loadingBuilder: (context, event) => const Center(
-              child: CircularProgressIndicator(color: Colors.white38),
+          ScrollConfiguration(
+            behavior: ScrollConfiguration.of(context).copyWith(
+              dragDevices: {...ScrollConfiguration.of(context).dragDevices, PointerDeviceKind.mouse},
             ),
-            pageController: _pageController,
-            onPageChanged: (index) => setState(() => _current = index),
+            child: PhotoViewGallery.builder(
+              scrollPhysics: const ClampingScrollPhysics(),
+              builder: (BuildContext context, int index) {
+                return PhotoViewGalleryPageOptions(
+                  imageProvider: AssetImage(widget.images[index]),
+                  initialScale: PhotoViewComputedScale.contained,
+                  heroAttributes: PhotoViewHeroAttributes(tag: widget.images[index]),
+                );
+              },
+              itemCount: widget.images.length,
+              loadingBuilder: (context, event) => const Center(
+                child: CircularProgressIndicator(color: Colors.white38),
+              ),
+              pageController: _pageController,
+              onPageChanged: (index) => setState(() => _current = index),
+            ),
           ),
           if (_current > 0)
             Positioned(

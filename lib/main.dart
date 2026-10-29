@@ -33,9 +33,11 @@ class CasonaApp extends StatelessWidget {
       title: 'Casona Fundo El Castillo',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
+      // El mouse queda fuera del arrastre a propósito: con él, click y
+      // arrastrar movía la página en vez de seleccionar texto. Los visores de
+      // fotos lo reactivan localmente (ver ScrollConfiguration en ellos).
       scrollBehavior: const MaterialScrollBehavior().copyWith(
         dragDevices: {
-          PointerDeviceKind.mouse,
           PointerDeviceKind.touch,
           PointerDeviceKind.trackpad,
         },
@@ -174,25 +176,27 @@ class _MainNavigationState extends State<MainNavigation> {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        controller: _scrollController,
-        physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
-        child: Column(
-          children: [
-            HomeScreen(
-              key: _homeKey,
-              onContactTap: () => _scrollToSection(_contactKey),
-              onVideoTap: _showVideoModal,
-            ),
-            AboutSection(key: _aboutKey),
-            GallerySection(key: _galleryKey),
-            HistoriaEventosSection(key: _historiaEventosKey),
-            LocationSection(key: _locationKey),
-            if (AppConfig.showMenu) MenuScreen(key: _menuKey),
-            FaqSection(key: _faqKey),
-            ContactSection(key: _contactKey),
-            _buildFooter(),
-          ],
+      body: SelectionArea(
+        child: SingleChildScrollView(
+          controller: _scrollController,
+          physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+          child: Column(
+            children: [
+              HomeScreen(
+                key: _homeKey,
+                onContactTap: () => _scrollToSection(_contactKey),
+                onVideoTap: _showVideoModal,
+              ),
+              AboutSection(key: _aboutKey),
+              GallerySection(key: _galleryKey),
+              HistoriaEventosSection(key: _historiaEventosKey),
+              LocationSection(key: _locationKey),
+              if (AppConfig.showMenu) MenuScreen(key: _menuKey),
+              FaqSection(key: _faqKey),
+              ContactSection(key: _contactKey),
+              _buildFooter(),
+            ],
+          ),
         ),
       ),
     );
