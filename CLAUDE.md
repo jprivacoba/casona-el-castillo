@@ -1,11 +1,8 @@
 # Casona El Castillo — Claude Code Instructions
 
-## Skills
+## Flujo de trabajo
 
-- **Nuevo feature o mejora**: `superpowers:brainstorming` antes de escribir código
-- **Bugs difíciles**: `superpowers:systematic-debugging`
-- **Siempre**: `superpowers:test-driven-development` al implementar features
-- **Antes de terminar**: `superpowers:verification-before-completion`
+Trabajar directo: revisar, implementar y verificar inline. **No usar skills de superpowers** salvo que JP las pida por nombre (regla global en `~/.claude/CLAUDE.md`).
 
 ---
 
